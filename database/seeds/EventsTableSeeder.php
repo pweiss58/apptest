@@ -15,8 +15,6 @@ class EventsTableSeeder extends Seeder
             $u->tickets()->save(factory(App\Ticket::class)->make());
         });
 
-        /*factory(App\Event::class, 2)->create()->each(function($u){
-            $u->artists()->save(factory(App\Artist::class)->make());
-        });*/
+
     }
 }
