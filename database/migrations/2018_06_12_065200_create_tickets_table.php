@@ -16,17 +16,20 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('category');
+            $table->integer('priceCategory');
             $table->text('description');
-            $table->integer('countAvailable');
-            $table->integer('countReserved');
+            $table->integer('x');
+            $table->integer('y');
+            $table->boolean('available');
 
             $table->integer('event_id')->unsigned()->nullable();
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 
+            $table->integer('department_id')->unsigned()->nullable();
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
 
         });
     }

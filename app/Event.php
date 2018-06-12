@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    public function  eventsets(){
+    public function  eventset(){
         return $this->belongsTo('App\Eventset');
     }
 
-    public function artists(){
+    public function artist(){
         return $this->belongsToMany('App\Artist');
     }
 
-    public function locations(){
+    public function location(){
         return $this->belongsToMany('App\Location');
     }
 
-    public function tickets(){
+    public function ticket(){
         return $this->hasMany('App\Ticket');
     }
 }

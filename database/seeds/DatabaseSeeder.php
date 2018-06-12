@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder
             EventsTableSeeder::class,
             LocationsTableSeeder::class,
             DepartmentsTableSeeder::class,
-            SeatsTableSeeder::class,
             UsersTableSeeder::class,
             ArtistsTableSeeder::class,
             CommentsTableSeeder::class,
             TicketsTableSeeder::class,
         ]);
+
     }
 }

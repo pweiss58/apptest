@@ -11,6 +11,8 @@ class DepartmentsTableSeeder extends Seeder
      */
     public function run()
     {
-
+        factory(App\Department::class, 16)->create()->each(function($u){
+            $u->location()->associate(App\Location::find(random_int(1,16)))->save();
+        });
     }
 }

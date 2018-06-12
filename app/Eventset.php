@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Eventset extends Model
 {
-    public function events(){
+    public function event(){
         return $this->hasMany('App\Event');
     }
 
-    public function comments(){
+    public function comment(){
         return $this->hasMany('App\Comment');
     }
 
-    public function categories(){
+    public function category(){
         return $this->belongsTo('App\Category');
     }
 }

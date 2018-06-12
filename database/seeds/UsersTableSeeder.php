@@ -20,8 +20,8 @@ class UsersTableSeeder extends Seeder
             'location_id' => '1',
         ]);*/
 
-        factory(App\User::class, 2)->create()->each(function($u){
-            $u->tickets()->save(factory(App\Ticket::class)->make());
+        factory(App\User::class, 16)->create()->each(function($u){
+            $u->location()->associate(App\Location::find(random_int(1,16)))->save();
         });
     }
 }

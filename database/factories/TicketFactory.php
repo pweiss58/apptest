@@ -6,7 +6,6 @@ $factory->define(App\Ticket::class, function (Faker $faker) {
     return [
         'category' => $faker->randomDigitNotNull,
         'description' => $faker->text,
-        'countAvailable' => $faker->randomDigit,
-        'countReserved' => $faker->randomDigit,
+        'x' => $faker->randomDigitNotNull,
     ];
 });

@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
-    public function events(){
+    public function event(){
         return $this->belongsToMany('App\Event');
     }
 
-    public function  users(){
+    public function  user(){
         return $this->hasMany('App\User');
     }
 
-    public function departments(){
+    public function department(){
         return $this->hasMany('App\Department');
     }
 }

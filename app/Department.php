@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Department extends Model
 {
-    public function locations(){
+    public function location(){
         return $this->belongsTo('App\Location');
     }
 
-    public function seats(){
-        return $this->hasMany('App\Seat');
+    public function ticket(){
+        return $this->hasMany('App\Ticket');
     }
 }

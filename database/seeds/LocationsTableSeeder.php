@@ -11,10 +11,14 @@ class LocationsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Location::class, 5)->create()->each(function($u){
+        /*factory(App\Location::class, 5)->create()->each(function($u){
             $u->departments()->save(factory(App\Department::class)->make());
             $u->events()->save(factory(App\Event::class)->make());
             $u->users()->save(factory(App\User::class)->make());
+        });*/
+
+        factory(App\Location::class, 16)->create()->each(function($u){
+            $u->event()->attach(App\Event::find(random_int(1,8)));
         });
     }
 }
