@@ -14,7 +14,7 @@
         }
 
         .outer {
-            margin: 20px auto;
+            /*margin: 20px auto;*/
             max-width: 300px;
         }
 
@@ -71,6 +71,12 @@
             box-shadow: none;
             cursor: not-allowed;
         }
+
+        input[type=submit]{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
         .seat label {
             display: block;
             position: relative;
@@ -106,11 +112,13 @@
         <h1>Please select a seat</h1>
     </div>
 
-
     <div class="">
-    <table id="seattable">
+        <form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <table id="seattable">
 
-    </table>
+            </table>
+            <input type="submit" name="formSubmit" value="Auswahl bestätigen">
+        </form>
     </div>
 
     <div class="">
@@ -118,22 +126,42 @@
     </div>
 </div>
 
-
 <script>
     var seatTable = document.getElementById("seattable");
 
+    <?php $thisActualI = 1; ?>
 
     for (var i = 0; i < "<?php echo $department->rowCount; ?>"; i++){
         var thisRow = seatTable.insertRow(i);
         thisRow.setAttribute("class", "seats");
 
+        <?php $thisIsFunxD = "<script>document.write((++i).toString())</script>"; ?>
+        <?php $thisActualJ = 1; ?>
+
         for (var j = 0; j < "<?php echo $department->columnCount; ?>"; j++){
+
+            var x = i+1;
+            var y = j+1;
+            var thisSeatAvailable = "<?php echo DB::table('tickets')->where([
+                ['department_id', '=', $department->id],
+                ['x', '=', '1'],
+                ['y', '=', '1'],
+            ])->value('available'); ?>";
+
             var seatCheckbox = document.createElement("INPUT");
             var seatLabel = document.createElement("LABEL");
             var rowLetter = String.fromCharCode(65 + i);
             var seatID = (rowLetter + (+j + 1));
             seatCheckbox.setAttribute("type", "checkbox");
             seatCheckbox.setAttribute("id", seatID);
+            seatCheckbox.setAttribute("name", "seats[]");
+            seatCheckbox.setAttribute("value", seatID);
+
+            console.log(thisSeatAvailable);
+            console.log("-------------------");
+            if (thisSeatAvailable == 1){
+                seatCheckbox.setAttribute("disabled", "disabled");
+            }
             seatLabel.setAttribute("for", seatID);
             seatLabel.innerHTML = seatID;
             var thisCell = thisRow.insertCell(j);
@@ -141,9 +169,35 @@
             thisCell.appendChild(seatCheckbox);
             thisCell.appendChild(seatLabel);
 
+            <?php ++$thisActualJ; ?>
         }
+        <?php ++$thisActualI; ?>
     }
 </script>
+
+
+<?php
+$alphabet = range('A', 'Z');
+if(isset($_GET['seats'])){
+    $aSeat = $_GET['seats'];
+
+    if(empty($aSeat)){
+        echo("Kein Sitzplatz ausgewählt!");
+    }
+    else{
+        $seatCount = count($aSeat);
+        echo("$seatCount Sitzplätze ausgewählt: ");
+        foreach($aSeat as $seatNr){
+            echo $seatNr.", ";
+            $seatX = substr($seatNr, 0, 1);
+            $seatX = array_search($seatX, $alphabet) + 1;
+            $seatY = substr($seatNr, 1);
+            DB::update('update tickets set available = false where department_id = ? and x = ? and y = ?', [$department->id, $seatX, $seatY]);
+        }
+    }
+}
+echo "";
+?>
 
 </body>
 </html>
