@@ -15,7 +15,7 @@ class Event extends Model
     }
 
     public function location(){
-        return $this->belongsToMany('App\Location');
+        return $this->belongsTo('App\Location');
     }
 
     public function ticket(){

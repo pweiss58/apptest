@@ -12,7 +12,7 @@ class CommentsTableSeeder extends Seeder
     public function run()
     {
         factory(App\Comment::class, 8)->create()->each(function($u){
-            $u->eventset()->associate(App\Eventset::find(random_int(1,4)))->save();
+            $u->eventset()->associate(App\Eventset::find(random_int(1,\App\Eventset::all()->count())))->save();
         });
     }
 }

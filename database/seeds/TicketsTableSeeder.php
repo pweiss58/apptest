@@ -17,15 +17,20 @@ class TicketsTableSeeder extends Seeder
 
                 for ($j = 1; $j <= (\App\Department::all()->where('id', T_IS_EQUAL, $departmentID )->first()->columnCount); $j++) {
 
-                    DB::table('tickets')->insert([
+                    $int= rand(1162055681,1262055681);
+
+                    DB::table('tickets')->insert(array(
                         'priceCategory' => random_int(1,10),
                         'description' => str_random(30),
-                        'x' => $i,
-                        'y' => $j,
+                        'seatX' => $i,
+                        'seatY' => $j,
                         'available' => true,
+                        'paid' => ((random_int(1,2) == 2)  ? true : false),
+                        'paymentDate' => date("Y-m-d H:i:s",$int),
                         'department_id' => $departmentID,
-                        'event_id' => random_int(1,8),
-                    ]);
+                        //'event_id' => random_int(1,8),
+                        'user_id' => random_int(1, (\App\User::all()->count())),
+                    ));
                 }
             }
         }

@@ -10,3 +10,5 @@ $factory->define(App\Event::class, function (Faker $faker) {
         'countReserved' => $faker ->randomDigitNotNull,
     ];
 });
+
+//factory not in use

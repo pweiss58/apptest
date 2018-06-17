@@ -4,8 +4,10 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Ticket::class, function (Faker $faker) {
     return [
-        'category' => $faker->randomDigitNotNull,
+        'priceCategory' => $faker->randomDigitNotNull,
         'description' => $faker->text,
-        'x' => $faker->randomDigitNotNull,
+
     ];
 });
+
+//factory not in use

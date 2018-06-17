@@ -4,11 +4,11 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Location::class, function (Faker $faker) {
     return [
-        'ort' => $faker->city,
-        'halle' => $faker->word,
-        'address' => $faker->address,
         'plz' => $faker->postcode,
+        'city' => $faker->city,
+        'address' => $faker->address,
+        'hallenName' => $faker->word,
         'anfahrtsLink' => $faker->url,
-
+        'departmentCount' => $faker->numberBetween(1, 6),
     ];
 });

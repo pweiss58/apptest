@@ -18,11 +18,14 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('email');
-            $table->string('pw');
             $table->string('username');
+            $table->string('pw');
+            $table->string('plz');
+            $table->string('city');
+            $table->string('address');
 
-            $table->integer('location_id')->unsigned()->nullable();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+           /* $table->integer('location_id')->unsigned()->nullable();
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');*/
 
         });
     }

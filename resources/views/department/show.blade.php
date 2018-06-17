@@ -127,57 +127,62 @@
 </div>
 
 <script>
-    var seatTable = document.getElementById("seattable");
+    var unavailableSeatsXString = "<?php echo DB::table('tickets')->where([
+        ['department_id', '=', $department->id],
+        ['available', '=', false],
+    ])->pluck('seatX'); ?>";
+    var unavailableSeatsXArray = unavailableSeatsXString.slice(1, unavailableSeatsXString.length-1).split(',');
 
-    <?php $thisActualI = 1; ?>
+    var unavailableSeatsYString = "<?php echo DB::table('tickets')->where([
+        ['department_id', '=', $department->id],
+        ['available', '=', false],
+    ])->pluck('seatY'); ?>";
+    var unavailableSeatsYArray = unavailableSeatsYString.slice(1, unavailableSeatsYString.length-1).split(',');
+
+    var seatTable = document.getElementById("seattable");
 
     for (var i = 0; i < "<?php echo $department->rowCount; ?>"; i++){
         var thisRow = seatTable.insertRow(i);
         thisRow.setAttribute("class", "seats");
 
-        <?php $thisIsFunxD = "<script>document.write((++i).toString())</script>"; ?>
-        <?php $thisActualJ = 1; ?>
-
         for (var j = 0; j < "<?php echo $department->columnCount; ?>"; j++){
-
-            var x = i+1;
-            var y = j+1;
-            var thisSeatAvailable = "<?php echo DB::table('tickets')->where([
-                ['department_id', '=', $department->id],
-                ['x', '=', '1'],
-                ['y', '=', '1'],
-            ])->value('available'); ?>";
 
             var seatCheckbox = document.createElement("INPUT");
             var seatLabel = document.createElement("LABEL");
             var rowLetter = String.fromCharCode(65 + i);
             var seatID = (rowLetter + (+j + 1));
+
             seatCheckbox.setAttribute("type", "checkbox");
             seatCheckbox.setAttribute("id", seatID);
             seatCheckbox.setAttribute("name", "seats[]");
             seatCheckbox.setAttribute("value", seatID);
 
-            console.log(thisSeatAvailable);
-            console.log("-------------------");
-            if (thisSeatAvailable == 1){
-                seatCheckbox.setAttribute("disabled", "disabled");
+            var x = i+1;
+            var y = j+1;
+
+            for (var k = 0; k < unavailableSeatsXArray.length; k++){
+
+                if (unavailableSeatsXArray[k] == x && unavailableSeatsYArray[k] == y){
+
+                    seatCheckbox.setAttribute("disabled", "disabled");
+                }
             }
+
             seatLabel.setAttribute("for", seatID);
             seatLabel.innerHTML = seatID;
+
             var thisCell = thisRow.insertCell(j);
             thisCell.setAttribute("class", "seat");
             thisCell.appendChild(seatCheckbox);
             thisCell.appendChild(seatLabel);
-
-            <?php ++$thisActualJ; ?>
         }
-        <?php ++$thisActualI; ?>
     }
 </script>
 
 
 <?php
 $alphabet = range('A', 'Z');
+
 if(isset($_GET['seats'])){
     $aSeat = $_GET['seats'];
 
@@ -192,10 +197,11 @@ if(isset($_GET['seats'])){
             $seatX = substr($seatNr, 0, 1);
             $seatX = array_search($seatX, $alphabet) + 1;
             $seatY = substr($seatNr, 1);
-            DB::update('update tickets set available = false where department_id = ? and x = ? and y = ?', [$department->id, $seatX, $seatY]);
+            DB::update('update tickets set available = false where department_id = ? and seatX = ? and seatY = ?', [$department->id, $seatX, $seatY]);
         }
     }
 }
+
 echo "";
 ?>
 

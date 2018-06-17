@@ -20,7 +20,7 @@ class EventSetsTableSeeder extends Seeder
         });*/
 
         factory(App\Eventset::class, 4)->create()->each(function($u){
-            $u->category()->associate(App\Category::find(random_int(1,2)))->save();
+            $u->category()->associate(App\Category::find(random_int(1,\App\Category::all()->count())))->save();
         });
 
 

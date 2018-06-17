@@ -15,5 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 
 });
+
+/*Route::get('eventsets/{id}/events{eventNr}/departments/{departmentNr}', function($eventsetId, $eventNr, $departmentNr){
+    return 'Department '.$departmentNr;
+});
+*/
+
+
 Route::resource('events', 'EventController');
 Route::resource('departments', 'DepartmentController');
+Route::resource('users','CartController');

@@ -17,8 +17,6 @@ class LocationsTableSeeder extends Seeder
             $u->users()->save(factory(App\User::class)->make());
         });*/
 
-        factory(App\Location::class, 16)->create()->each(function($u){
-            $u->event()->attach(App\Event::find(random_int(1,8)));
-        });
+        factory(App\Location::class, 4)->create();
     }
 }

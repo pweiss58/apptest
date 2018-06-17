@@ -11,8 +11,21 @@ class DepartmentsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Department::class, 16)->create()->each(function($u){
+        /*factory(App\Department::class, 16)->create()->each(function($u){
             $u->location()->associate(App\Location::find(random_int(1,16)))->save();
-        });
+        });*/
+
+        for ($locationID = 1; $locationID <= (\App\Location::all()->count()); $locationID++){
+
+            for ($i = 1; $i <= (\App\Location::all()->where('id', T_IS_EQUAL, $locationID )->first()->departmentCount); $i++){
+
+                DB::table('departments')->insert(array(
+                    'rowCount' => random_int(5, 15),
+                    'columnCount' => random_int(5, 10),
+                    'departmentNr' => $i,
+                    'location_id' => $locationID,
+                ));
+            }
+        }
     }
 }

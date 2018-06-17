@@ -18,11 +18,15 @@ class CreateEventsTable extends Migration
             $table->timestamps();
             $table->date('startDate');
             $table->date( 'endDate');
-            $table->integer('countAvailable');
-            $table->integer('countReserved');
+            /*$table->integer('countAvailable');
+            $table->integer('countReserved');*/
+            $table->integer('eventNr');
 
             $table->integer('eventset_id')->unsigned()->nullable();
             $table->foreign('eventset_id')->references('id')->on('eventsets')->onDelete('cascade');
+
+            $table->integer('location_id')->unsigned()->nullable();
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
         });
     }
 
