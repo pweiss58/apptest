@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('plz');
             $table->string('city');
             $table->string('address');
+            $table->string('remember_token')->nullable();
 
            /* $table->integer('location_id')->unsigned()->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');*/
