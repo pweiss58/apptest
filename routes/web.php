@@ -25,3 +25,12 @@ Route::get('/', function () {
 Route::resource('events', 'EventController');
 Route::resource('departments', 'DepartmentController');
 Route::resource('users','CartController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+/*Route::get('/profile', function(){
+
+    //
+
+})->middleware('auth');*/
