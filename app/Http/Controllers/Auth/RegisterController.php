@@ -50,12 +50,12 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'username' => 'required|string|max:255|min:6',
             'email' => 'required|string|email|max:255|unique:users',
-            'pw' => 'required|string|min:6|confirmed',
-            'name' => 'required|string|min:2',
-            /*'sname' => 'required|string|min:2',*/
-            'plz' => 'nullable|string|min:2',
-            'city' => 'required|string|min:2',
-            'address' => 'required|string|min:8',
+            'password' => 'required|string|min:6|confirmed|max:255',
+            'firstName' => 'required|string|min:2|max:255',
+            'lastName' => 'required|string|min:2|max:255',
+            'plz' => 'required|string|min:2|max:20',
+            'city' => 'required|string|min:2|max:255',
+            'address' => 'required|string|min:8|max:255',
         ]);
     }
 
@@ -70,8 +70,9 @@ class RegisterController extends Controller
         return User::create([
             'username' => $data['username'],
             'email' => $data['email'],
-            'pw' => bcrypt($data['password']),
-            'name' => $data['name'],
+            'password' => bcrypt($data['password']),
+            'firstName' => $data['firstName'],
+            'lastName' => $data['lastName'],
             'plz' => $data['plz'],
             'city' => $data['city'],
             'address' => $data['address'],
@@ -79,6 +80,6 @@ class RegisterController extends Controller
     }
 
     protected function guard(){
-        return Auth::guard('guard-name');
+        return Auth::guard('web');
     }
 }

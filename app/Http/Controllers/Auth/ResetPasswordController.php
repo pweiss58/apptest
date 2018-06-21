@@ -38,6 +38,6 @@ class ResetPasswordController extends Controller
     }
 
     protected function guard(){
-        return Auth::guard('guard-name');
+        return Auth::guard('web');
     }
 }

@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 
-});
+})->name('welcome');
 
 /*Route::get('eventsets/{id}/events{eventNr}/departments/{departmentNr}', function($eventsetId, $eventNr, $departmentNr){
     return 'Department '.$departmentNr;
@@ -33,4 +33,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     //
 
-})->middleware('auth');*/
+})->middleware('auth:api');*/
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

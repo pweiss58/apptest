@@ -20,10 +20,11 @@ $factory->define(App\User::class, function (Faker $faker) {
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),*/
 
-        'name' => $faker->name,
+        'firstName' => $faker->firstName,
+        'lastName' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
         'username'=>$faker->userName,
-        'pw' =>$faker->password,
+        'password' =>$faker->password,
         'plz' => $faker->postcode,
         'city' => $faker->city,
         'address' => $faker->address,
