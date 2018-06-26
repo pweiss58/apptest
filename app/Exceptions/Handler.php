@@ -56,6 +56,6 @@ class Handler extends ExceptionHandler
     {
         return $request->expectsJson()
             ? response()->json(['You are not logged in!'=> $exception->getMessage()], 401)
-            : redirect()->guest(route('welcome'));
+            : redirect()->guest(route('login'));
     }
 }

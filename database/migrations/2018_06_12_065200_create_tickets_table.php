@@ -18,20 +18,18 @@ class CreateTicketsTable extends Migration
             $table->timestamps();
             $table->integer('priceCategory');
             $table->text('description');
-            $table->integer('seatX');
-            $table->integer('seatY');
             $table->boolean('available');
             $table->boolean('paid');
             $table->date('paymentDate')->nullable();
 
-            /*$table->integer('event_id')->unsigned()->nullable();
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');*/
-
-            $table->integer('department_id')->unsigned()->nullable();
-            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+            $table->integer('event_id')->unsigned()->nullable();
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->integer('seat_id')->unsigned()->nullable();
+            $table->foreign('seat_id')->references('id')->on('seats')->onDelete('cascade');
 
         });
     }

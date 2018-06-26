@@ -7,7 +7,7 @@
 <h1>Tickets</h1>
 <table id="tId">
     <?php
-    $tickets = \App\Ticket::all()->where('user_id', 1) ?>
+    $tickets = \App\Seat::all()->where('user_id', 1) ?>
     @foreach ($tickets->chunk(4) as $items)
         <tr class="row">
             @foreach ($items as $product)
@@ -22,8 +22,8 @@
 <script>
 
 
+/*
 
-    /*
 <?php // $unpaidTickets =  DB::table('tickets')->where([['user_id', '=', 1],['paid', '=', 0],])->get(); ?>
 
     var unpaidTickets = '<?php //echo $unpaidTickets ?>';

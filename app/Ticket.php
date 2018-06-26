@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
-    /*public function event(){
+    public function event(){
         return $this->belongsTo('App\Event');
     }
-*/
-    public function department(){
-        return $this->belongsTo('App\Department');
+
+    public function seat(){
+        return $this->belongsTo('App\Seat');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User');
     }
 }

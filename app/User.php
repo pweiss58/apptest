@@ -15,8 +15,4 @@ class User extends Model implements Authenticatable
     public function ticket(){
         return $this->hasMany('App\Ticket');
     }
-
-    /*public function location(){
-        return $this->belongsTo('App\Location');
-    }*/
 }

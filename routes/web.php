@@ -16,13 +16,9 @@ Route::get('/', function () {
 
 })->name('welcome');
 
-/*Route::get('eventsets/{id}/events{eventNr}/departments/{departmentNr}', function($eventsetId, $eventNr, $departmentNr){
-    return 'Department '.$departmentNr;
-});
-*/
 
-Route::get('eventsets/{eventset}/events/{event}/departments/{department}', 'DepartmentController@showDep');
-
+Route::get('eventsets/{eventset}/events/{event}/departments/{department}', 'DepartmentController@show');
+Route::post('cart/{event}/{department}', 'DepartmentController@update');
 
 Route::resource('events', 'EventController');
 //Route::resource('departments', 'DepartmentController');

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\Eventset;
 use Illuminate\Http\Request;
-use App\Department;
+use App\Seat;
 use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
@@ -47,24 +47,21 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($eventsetId, $eventNr, $departmentNr)
     {
+        $event = DB::table('events')->where([
+           ['eventset_id', '=', $eventsetId],
+           ['eventNr', '=', $eventNr],
+        ])->first();
 
-    }
+        $eventLocationId = $event->location_id;
 
-    public function showDep($eventsetId, $eventNr, $departmentNr){
-
-        //$eventset = Eventset::find($eventsetId);
-        $eventLocationId = DB::table('events')->where([
-            ['eventset_id', '=', $eventsetId],
-            ['eventNr', '=', $eventNr],
-        ])->value('location_id');
         $department = DB::table('departments')->where([
             ['location_id', '=', $eventLocationId],
             ['departmentNr', '=', $departmentNr],
         ])->first();
 
-        return view('department.show', array('department' => $department));
+        return view('department.show', array('department' => $department, 'event' => $event));
     }
 
     /**
@@ -85,9 +82,27 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $eventID, $departmentID)
     {
-        //
+        $alphabet = range('A', 'Z');
+        //$aSeat = $request->input('seats.*');
+        $aSeat = $_POST['seats'];
+
+        foreach($aSeat as $seatNr){
+            $seatX = substr($seatNr, 0, 1);
+            $seatX = array_search($seatX, $alphabet) + 1;
+            $seatY = substr($seatNr, 1);
+
+            $seatID = DB::table('seats')->where([
+                ['seatX', '=', $seatX],
+                ['seatY', '=', $seatY],
+                ['department_id', '=', $departmentID],
+            ])->value('id');
+
+            DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
+
+            return view('welcome');
+        }
     }
 
     /**

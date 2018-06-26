@@ -113,7 +113,8 @@
     </div>
 
     <div class="">
-        <form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <form method="post" action="/cart/{{ $event->id }}/{{ $department->id }}">
+            {{ csrf_field() }}
             <table id="seattable">
 
             </table>
@@ -127,17 +128,37 @@
 </div>
 
 <script>
-    var unavailableSeatsXString = "<?php echo DB::table('tickets')->where([
-        ['department_id', '=', $department->id],
-        ['available', '=', false],
-    ])->pluck('seatX'); ?>";
-    var unavailableSeatsXArray = unavailableSeatsXString.slice(1, unavailableSeatsXString.length-1).split(',');
 
-    var unavailableSeatsYString = "<?php echo DB::table('tickets')->where([
-        ['department_id', '=', $department->id],
-        ['available', '=', false],
-    ])->pluck('seatY'); ?>";
-    var unavailableSeatsYArray = unavailableSeatsYString.slice(1, unavailableSeatsYString.length-1).split(',');
+    <?php
+        $unavailableSeatsIDs = DB::table('tickets')->where([
+           ['available', '=', false],
+        ])->pluck('seat_id');
+
+        $thisDepartmentsUnavailableSeatsX = array();
+        $i = 0;
+
+        foreach ($unavailableSeatsIDs as $seatID){
+
+            $thisDepartmentsUnavailableSeatsX[$i] = DB::table('seats')->where([
+                ['id', '=', $seatID],
+                ['department_id', '=', $department->id],
+            ])->value('seatX');
+
+            $thisDepartmentsUnavailableSeatsY[$i] = DB::table('seats')->where([
+                ['id', '=', $seatID],
+                ['department_id', '=', $department->id],
+            ])->value('seatY');
+
+            $i++;
+        }
+
+    $thisDepartmentsUnavailableSeatsX = json_encode($thisDepartmentsUnavailableSeatsX);
+        echo "var thisDepartmentsUnavailableSeatsX = ". $thisDepartmentsUnavailableSeatsX . ";\n";
+
+    $thisDepartmentsUnavailableSeatsY = json_encode($thisDepartmentsUnavailableSeatsY);
+        echo "var thisDepartmentsUnavailableSeatsY = ". $thisDepartmentsUnavailableSeatsY . ";\n";
+    ?>
+
 
     var seatTable = document.getElementById("seattable");
 
@@ -160,9 +181,9 @@
             var x = i+1;
             var y = j+1;
 
-            for (var k = 0; k < unavailableSeatsXArray.length; k++){
+            for (var k = 0; k < thisDepartmentsUnavailableSeatsX.length; k++){
 
-                if (unavailableSeatsXArray[k] == x && unavailableSeatsYArray[k] == y){
+                if (thisDepartmentsUnavailableSeatsX[k] == x && thisDepartmentsUnavailableSeatsY[k] == y){
 
                     seatCheckbox.setAttribute("disabled", "disabled");
                 }
@@ -181,10 +202,10 @@
 
 
 <?php
-$alphabet = range('A', 'Z');
+/*$alphabet = range('A', 'Z');
 
-if(isset($_GET['seats'])){
-    $aSeat = $_GET['seats'];
+if(isset($_POST['seats'])){
+    $aSeat = $_POST['seats'];
 
     if(empty($aSeat)){
         echo("Kein Sitzplatz ausgewählt!");
@@ -202,7 +223,7 @@ if(isset($_GET['seats'])){
     }
 }
 
-echo "";
+echo "";*/
 ?>
 
 </body>

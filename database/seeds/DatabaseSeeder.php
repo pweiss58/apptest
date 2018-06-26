@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             ArtistsTableSeeder::class,
             CommentsTableSeeder::class,
+            SeatsTableSeeder::class,
             TicketsTableSeeder::class,
         ]);
 

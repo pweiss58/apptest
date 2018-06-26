@@ -15,6 +15,6 @@ class Location extends Model
     }*/
 
     public function department(){
-        return $this->hasMany('App\Department');
+        return $this->hasMany('App\Seat');
     }
 }

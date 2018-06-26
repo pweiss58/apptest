@@ -23,7 +23,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'firstName' => $faker->firstName,
         'lastName' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
-        'username'=>$faker->userName,
+        'username'=>$faker->unique()->userName,
         'password' =>$faker->password,
         'plz' => $faker->postcode,
         'city' => $faker->city,
