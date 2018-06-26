@@ -84,25 +84,27 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $eventID, $departmentID)
     {
-        $alphabet = range('A', 'Z');
-        //$aSeat = $request->input('seats.*');
-        $aSeat = $_POST['seats'];
 
-        foreach($aSeat as $seatNr){
-            $seatX = substr($seatNr, 0, 1);
-            $seatX = array_search($seatX, $alphabet) + 1;
-            $seatY = substr($seatNr, 1);
+            $alphabet = range('A', 'Z');
+            $aSeat = $request->input('seats');
 
-            $seatID = DB::table('seats')->where([
-                ['seatX', '=', $seatX],
-                ['seatY', '=', $seatY],
-                ['department_id', '=', $departmentID],
-            ])->value('id');
+            foreach($aSeat as $seatNr) {
+                $seatX = substr($seatNr, 0, 1);
+                $seatX = array_search($seatX, $alphabet) + 1;
+                $seatY = substr($seatNr, 1);
 
-            DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
+                $seatID = DB::table('seats')->where([
+                    ['seatX', '=', $seatX],
+                    ['seatY', '=', $seatY],
+                    ['department_id', '=', $departmentID],
+                ])->value('id');
 
+                DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
+
+
+            }
             return view('welcome');
-        }
+
     }
 
     /**
