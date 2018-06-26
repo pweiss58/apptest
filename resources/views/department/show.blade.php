@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>Department {{ $department->id }}</title>
+    <title>Department {{ $department->departmentNr }}</title>
     <style class="">
         *, *:before, *:after {
             box-sizing: border-box;
@@ -100,7 +100,7 @@
     </style>
 </head>
 <body>
-<h1>Department {{ $department->id }}</h1>
+<h1>Department {{ $department->departmentNr }}</h1>
 <ul>
     <li>Amount of Rows: {{ $department->rowCount }}</li>
     <li>Amount of Columns: {{ $department->columnCount }}</li>

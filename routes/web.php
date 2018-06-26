@@ -21,19 +21,12 @@ Route::get('/', function () {
 });
 */
 
+Route::get('eventsets/{eventset}/events/{event}/departments/{department}', 'DepartmentController@showDep');
+
 
 Route::resource('events', 'EventController');
-Route::resource('departments', 'DepartmentController');
+//Route::resource('departments', 'DepartmentController');
 Route::resource('users','CartController');
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-/*Route::get('/profile', function(){
-
-    //
-
-})->middleware('auth:api');*/
 
 Auth::routes();
 

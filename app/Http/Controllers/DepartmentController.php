@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
+use App\Eventset;
 use Illuminate\Http\Request;
 use App\Department;
+use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
 {
@@ -46,7 +49,21 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        $department = Department::find($id);
+
+    }
+
+    public function showDep($eventsetId, $eventNr, $departmentNr){
+
+        //$eventset = Eventset::find($eventsetId);
+        $eventLocationId = DB::table('events')->where([
+            ['eventset_id', '=', $eventsetId],
+            ['eventNr', '=', $eventNr],
+        ])->value('location_id');
+        $department = DB::table('departments')->where([
+            ['location_id', '=', $eventLocationId],
+            ['departmentNr', '=', $departmentNr],
+        ])->first();
+
         return view('department.show', array('department' => $department));
     }
 
