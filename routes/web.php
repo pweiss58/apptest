@@ -17,7 +17,7 @@ Route::get('/', function () {
 })->name('welcome');
 
 
-Route::get('eventsets/{eventset}/events/{event}/departments/{department}', 'DepartmentController@show');
+Route::get('eventset/{eventset}/{event}/{department}', 'DepartmentController@show');
 Route::post('cart/{event}/{department}', 'DepartmentController@update');
 
 Route::resource('events', 'EventController');
