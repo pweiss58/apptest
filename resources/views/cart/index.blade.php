@@ -4,17 +4,18 @@
     <title>Warenkorb</title>
 </head>
 <body>
-<h1>Tickets</h1>
+<h1>Warenkorb</h1>
 <table id="tId">
-    <?php
-    $tickets = \App\Seat::all()->where('user_id', 1) ?>
-    @foreach ($tickets->chunk(4) as $items)
+    <p>{{count($chosenTickets)}} tickets im Warenkorb</p>
+
+    @foreach ($chosenTickets as $ticket)
         <tr class="row">
-            @foreach ($items as $product)
+
+            <?php $thisEventset = DB::table('eventsets')->where('id', '=', DB::table('events')->where('id', '=', $ticket->event_id)->value('eventset_id'))->first(); ?>
                 <div class="col-md-3">
-                    // html to render a product
-                </div> <!-- end col-md-3 -->
-            @endforeach
+                    html to render a product {{ $thisEventset->name }}
+                </div>
+
         </tr> <!-- end row -->
     @endforeach
 
@@ -22,7 +23,10 @@
 <script>
 
 
-/*
+
+
+
+
 
 <?php // $unpaidTickets =  DB::table('tickets')->where([['user_id', '=', 1],['paid', '=', 0],])->get(); ?>
 

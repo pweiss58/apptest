@@ -6,6 +6,7 @@ use App\Event;
 use App\Eventset;
 use Illuminate\Http\Request;
 use App\Seat;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
@@ -85,25 +86,34 @@ class DepartmentController extends Controller
     public function update(Request $request, $eventID, $departmentID)
     {
 
-            $alphabet = range('A', 'Z');
+           /* $alphabet = range('A', 'Z');
             $aSeat = $request->input('seats');
 
-            foreach($aSeat as $seatNr) {
-                $seatX = substr($seatNr, 0, 1);
-                $seatX = array_search($seatX, $alphabet) + 1;
-                $seatY = substr($seatNr, 1);
+            if(Auth::check()) {
 
-                $seatID = DB::table('seats')->where([
-                    ['seatX', '=', $seatX],
-                    ['seatY', '=', $seatY],
-                    ['department_id', '=', $departmentID],
-                ])->value('id');
+                $userID = Auth::id();
 
-                DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
+                foreach ($aSeat as $seatNr) {
+                    $seatX = substr($seatNr, 0, 1);
+                    $seatX = array_search($seatX, $alphabet) + 1;
+                    $seatY = substr($seatNr, 1);
+
+                    $seatID = DB::table('seats')->where([
+                        ['seatX', '=', $seatX],
+                        ['seatY', '=', $seatY],
+                        ['department_id', '=', $departmentID],
+                    ])->value('id');
+
+                    DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
+                    DB::update('update tickets set user_id = ? where seat_id = ? and event_id = ?', [$userID, $seatID, $eventID]);
 
 
+                }
+
+                return view('cart.index');
             }
-            return view('welcome');
+            else
+                return view('auth.login');*/
 
     }
 

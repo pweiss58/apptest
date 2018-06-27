@@ -200,31 +200,5 @@
     }
 </script>
 
-
-<?php
-/*$alphabet = range('A', 'Z');
-
-if(isset($_POST['seats'])){
-    $aSeat = $_POST['seats'];
-
-    if(empty($aSeat)){
-        echo("Kein Sitzplatz ausgewählt!");
-    }
-    else{
-        $seatCount = count($aSeat);
-        echo("$seatCount Sitzplätze ausgewählt: ");
-        foreach($aSeat as $seatNr){
-            echo $seatNr.", ";
-            $seatX = substr($seatNr, 0, 1);
-            $seatX = array_search($seatX, $alphabet) + 1;
-            $seatY = substr($seatNr, 1);
-            DB::update('update tickets set available = false where department_id = ? and seatX = ? and seatY = ?', [$department->id, $seatX, $seatY]);
-        }
-    }
-}
-
-echo "";*/
-?>
-
 </body>
 </html>
