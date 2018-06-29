@@ -109,7 +109,7 @@
 
 <div class="outer">
     <div class="">
-        <h1>Please select a seat</h1>
+        <h1>Bitte bis zu 5 Sitzplätze auswählen.</h1>
     </div>
 
     <div class="">
@@ -122,9 +122,16 @@
         </form>
     </div>
 
-    <div class="">
+    @if (count($errors) > 0)
+    <div class="alert alert-danger">
+
+            @foreach ($errors->all() as $error)
+                {{ $error }}
+            @endforeach
 
     </div>
+    @endif
+
 </div>
 
 <script>
@@ -132,6 +139,7 @@
     <?php
         $unavailableSeatsIDs = DB::table('tickets')->where([
            ['available', '=', false],
+           ['event_id', '=', $event->id],
         ])->pluck('seat_id');
 
         $thisDepartmentsUnavailableSeatsX = array();
@@ -161,6 +169,7 @@
 
 
     var seatTable = document.getElementById("seattable");
+
 
     for (var i = 0; i < "<?php echo $department->rowCount; ?>"; i++){
         var thisRow = seatTable.insertRow(i);

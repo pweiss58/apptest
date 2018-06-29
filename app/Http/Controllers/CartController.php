@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
@@ -16,18 +17,24 @@ class CartController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $userID = Auth::id();
+        if (Auth::check()) {
 
-        $chosenTickets = DB::table('tickets')->where([
-            ['user_id', '=', $userID],
-            ['paid', '=', false],
-        ])->get();
+            $user = Auth::user();
+            $userID = Auth::id();
 
-        if (Auth::check())
+            $chosenTickets = DB::table('tickets')->where([
+                ['user_id', '=', $userID],
+                ['paid', '=', false],
+            ])->get();
+
             return view('cart.index', array('user' => $user, 'chosenTickets' => $chosenTickets));
+        }
+
         else {
-            return view('auth.login');
+
+            $chosenTickets = Cookie::get('chosenTickets');
+            $chosenTickets = collect($chosenTickets);
+            return view('cart.index', array('chosenTickets' => $chosenTickets));
         }
 
     }
@@ -82,36 +89,9 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $eventID, $departmentID)
+    public function update(Request $request, $id)
     {
-
-        $alphabet = range('A', 'Z');
-        $aSeat = $request->input('seats');
-
-        if(Auth::check()) {
-
-            $userID = Auth::id();
-
-            foreach ($aSeat as $seatNr) {
-                $seatX = substr($seatNr, 0, 1);
-                $seatX = array_search($seatX, $alphabet) + 1;
-                $seatY = substr($seatNr, 1);
-
-                $seatID = DB::table('seats')->where([
-                    ['seatX', '=', $seatX],
-                    ['seatY', '=', $seatY],
-                    ['department_id', '=', $departmentID],
-                ])->value('id');
-
-                DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
-                DB::update('update tickets set user_id = ? where seat_id = ? and event_id = ?', [$userID, $seatID, $eventID]);
-            }
-
-        }
-
-
-        return $this->index();
-
+        //
     }
 
     /**

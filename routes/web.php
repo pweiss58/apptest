@@ -17,20 +17,20 @@ Route::get('/', function () {
 
 })->name('welcome');
 
-//EventSet
-Route::get('eventset/{eventset}/{event}/{department}', 'DepartmentController@show');
-Route::post('cart/{event}/{department}', 'CartController@update');
+//Department
+Route::get('eventset/{eventset}/{event}/{department}', 'DepartmentController@show')->name('department');
+Route::post('cart/{event}/{department}', 'DepartmentController@update');
+
+//Cart
+Route::get('cart', 'CartController@index')->name('cart');
 
 //Event
-Route::resource('events', 'EventController');
-//Route::resource('departments', 'DepartmentController');
-//Route::resource('users','CartController');
+Route::get('events', 'EventController@show')->name('event');
 
-//Auth
+
+//Auth Routes
 Auth::routes();
 
 //Home
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Cart
-Route::get('cart', 'CartController@index')->name('cart');

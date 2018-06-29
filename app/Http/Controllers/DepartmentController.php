@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Seat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Validator;
 
 class DepartmentController extends Controller
 {
@@ -86,35 +88,70 @@ class DepartmentController extends Controller
     public function update(Request $request, $eventID, $departmentID)
     {
 
-           /* $alphabet = range('A', 'Z');
-            $aSeat = $request->input('seats');
+        $alphabet = range('A', 'Z');
+        $chosenSeats = $request->input('seats');
 
-            if(Auth::check()) {
+        $errormessages = [
+            'required' => 'Es muss mindestens ein Sitzplatz ausgewählt sein!',
+            'max' => 'Es dürfen maximal 5 Sitzplätze ausgewählt sein!',
+        ];
 
-                $userID = Auth::id();
+        $this->validate($request,[
+            'seats' => 'required',
+        ], $errormessages);
 
-                foreach ($aSeat as $seatNr) {
-                    $seatX = substr($seatNr, 0, 1);
-                    $seatX = array_search($seatX, $alphabet) + 1;
-                    $seatY = substr($seatNr, 1);
+        $this->validate($request,[
+            'seats' => 'max:5',
+        ], $errormessages);
 
-                    $seatID = DB::table('seats')->where([
-                        ['seatX', '=', $seatX],
-                        ['seatY', '=', $seatY],
-                        ['department_id', '=', $departmentID],
-                    ])->value('id');
+        if (Auth::check()) {
 
-                    DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
-                    DB::update('update tickets set user_id = ? where seat_id = ? and event_id = ?', [$userID, $seatID, $eventID]);
+            $userID = Auth::id();
 
+            foreach ($chosenSeats as $thisSeat) {
+                $seatX = substr($thisSeat, 0, 1);
+                $seatX = array_search($seatX, $alphabet) + 1;
+                $seatY = substr($thisSeat, 1);
 
-                }
+                $seatID = DB::table('seats')->where([
+                    ['seatX', '=', $seatX],
+                    ['seatY', '=', $seatY],
+                    ['department_id', '=', $departmentID],
+                ])->value('id');
 
-                return view('cart.index');
+                DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
+                DB::update('update tickets set user_id = ? where seat_id = ? and event_id = ?', [$userID, $seatID, $eventID]);
             }
-            else
-                return view('auth.login');*/
 
+        } else {
+
+            $chosenTickets = array();
+
+            foreach ($chosenSeats as $thisSeat) {
+                $seatX = substr($thisSeat, 0, 1);
+                $seatX = array_search($seatX, $alphabet) + 1;
+                $seatY = substr($thisSeat, 1);
+
+                $seatID = DB::table('seats')->where([
+                    ['seatX', '=', $seatX],
+                    ['seatY', '=', $seatY],
+                    ['department_id', '=', $departmentID],
+                ])->value('id');
+
+                DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
+
+                $thisTicket = DB::table('tickets')->where([
+                    ['event_id', '=', $eventID],
+                    ['seat_id', '=', $seatID],
+                ])->first();
+
+                array_push($chosenTickets, $thisTicket);
+            }
+
+            Cookie::queue('chosenTickets', $chosenTickets, 20);
+        }
+
+        return redirect()->action('CartController@index');
     }
 
     /**

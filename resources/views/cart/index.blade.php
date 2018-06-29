@@ -6,7 +6,7 @@
 <body>
 <h1>Warenkorb</h1>
 <table id="tId">
-    <p>{{count($chosenTickets)}} tickets im Warenkorb</p>
+    <p>{{count($chosenTickets)}} Tickets im Warenkorb.</p>
 
     @foreach ($chosenTickets as $ticket)
         <tr class="row">
@@ -29,7 +29,7 @@
 
 
 <?php // $unpaidTickets =  DB::table('tickets')->where([['user_id', '=', 1],['paid', '=', 0],])->get(); ?>
-
+/*
     var unpaidTickets = '<?php //echo $unpaidTickets ?>';
     //alert(unpaidTickets.length);
     //console.log(1);
