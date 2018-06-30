@@ -113,7 +113,7 @@
     </div>
 
     <div class="">
-        <form method="post" action="/cart/{{ $event->id }}/{{ $department->id }}">
+        <form method="post" action="/cart/{{ $event->id }}/{{ $department->id }}" id="seatChooser">
             {{ csrf_field() }}
             <table id="seattable">
 
@@ -136,7 +136,52 @@
 
 <script>
 
+    setTimeout(function(){
+
+        sessionStorage.clear();
+
+        var array = [];
+        var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            array.push(checkboxes[i].value);
+        }
+
+        sessionStorage.setItem("pickedSeats", array.toString());
+
+        location = ''
+
+    },60000);   //60 sekunden
+
+    window.onload = function() {
+
+        var pickedSeatsString = sessionStorage.getItem("pickedSeats");
+
+        sessionStorage.clear();
+
+        if ( pickedSeatsString != null) {
+
+            var pickedSeatsArray = pickedSeatsString.split(",");
+
+            var allSeatsArray = document.getElementsByName("seats[]");
+
+            for (var i = 0; i < allSeatsArray.length; i++) {
+
+                for (var j = 0; j < pickedSeatsArray.length; j++) {
+
+                    if (pickedSeatsArray[j] == allSeatsArray[i].id) {
+
+                        allSeatsArray[i].checked = true;
+                    }
+                }
+
+            }
+        }
+    };
+
+
     <?php
+
         $unavailableSeatsIDs = DB::table('tickets')->where([
            ['available', '=', false],
            ['event_id', '=', $event->id],

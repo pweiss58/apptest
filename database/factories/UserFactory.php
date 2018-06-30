@@ -28,5 +28,6 @@ $factory->define(App\User::class, function (Faker $faker) {
         'plz' => $faker->postcode,
         'city' => $faker->city,
         'address' => $faker->address,
+        'customer_id' => $faker->unique()->randomNumber(9),
     ];
 });

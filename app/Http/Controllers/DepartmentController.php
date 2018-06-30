@@ -154,6 +154,11 @@ class DepartmentController extends Controller
         return redirect()->action('CartController@index');
     }
 
+    public function autoRefresh($id, $available){
+
+        //
+    }
+
     /**
      * Remove the specified resource from storage.
      *
