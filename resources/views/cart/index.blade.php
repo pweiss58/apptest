@@ -2,11 +2,13 @@
 <html>
 <head>
     <title>Warenkorb</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <h1>Warenkorb</h1>
 <table id="tId">
-    <p>{{count($chosenTickets)}} Tickets im Warenkorb.</p>
+    <p>{{count($chosenTickets)}} Tickets im Warenkorb. {{$reservationDate}}</p>
 
     @foreach ($chosenTickets as $ticket)
         <tr class="row">
@@ -16,37 +18,76 @@
                     html to render a product {{ $thisEventset->name }}
                 </div>
 
-        </tr> <!-- end row -->
+        </tr>
     @endforeach
 
 </table>
+
+<p id="timer"></p>
+
+</body>
+
 <script>
 
+    <?php
 
+    $chosenTicketIDs = array();
 
+    foreach($chosenTickets as $ticket){
 
+        array_push($chosenTicketIDs, $ticket->id);
+    }
 
+        $chosenTicketIDsJS = json_encode($chosenTicketIDs);
+    echo "var chosenTicketIDs = ". $chosenTicketIDsJS . ";\n";
 
+    ?>
 
-<?php // $unpaidTickets =  DB::table('tickets')->where([['user_id', '=', 1],['paid', '=', 0],])->get(); ?>
-/*
-    var unpaidTickets = '<?php //echo $unpaidTickets ?>';
-    //alert(unpaidTickets.length);
-    //console.log(1);
-    var ticketTable = document.getElementById("tId");
+    var reservationDate = "<?php echo $reservationDate; ?>";
 
-    for (var t = 0; t < "<?php// echo $unpaidTickets->count() ?>"; t++) {
-        var cartRow = ticketTable.insertRow(t);
-        for(var u = 0; u < 3; u++){
-            if(t == 0){
-                var thisHeader = document.createElement("TH");
-                var fieldOne = document.createTextNode("TicketID");
-                thisHeader.appendChild(fieldOne);
+    if (reservationDate != "") {
+
+        var countDownDate = new Date("<?php echo $reservationDate; ?>");
+        countDownDate = new Date(countDownDate.getTime() + 60000);  //1 minute
+
+        var x = setInterval(function () {
+
+            var now = new Date().getTime();
+
+            var distance = countDownDate - now;
+
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("timer").innerHTML = "EXPIRED";
+
+                var chosenTicketsJSON = JSON.stringify(chosenTicketIDs);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/cart",
+                    data: { chosenTickets: chosenTicketsJSON },
+
+                });
+
+                var data = {
+                    chosenTickets: chosenTicketsJSON
+                }
 
             }
-        }
+        }, 1000);
     }
-*/
+
 </script>
-</body>
+
 </html>

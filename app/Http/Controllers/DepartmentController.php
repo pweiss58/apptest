@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
+use MongoDB\BSON\Timestamp;
 
 class DepartmentController extends Controller
 {
@@ -90,6 +91,7 @@ class DepartmentController extends Controller
 
         $alphabet = range('A', 'Z');
         $chosenSeats = $request->input('seats');
+        $currTime = new \DateTime(null, new \DateTimeZone('Europe/Berlin'));
 
         $errormessages = [
             'required' => 'Es muss mindestens ein Sitzplatz ausgewählt sein!',
@@ -121,11 +123,13 @@ class DepartmentController extends Controller
 
                 DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
                 DB::update('update tickets set user_id = ? where seat_id = ? and event_id = ?', [$userID, $seatID, $eventID]);
+                DB::update('update tickets set reservationDate = ? where seat_id = ? and event_id = ?', [$currTime, $seatID, $eventID]);
             }
 
         } else {
 
             $chosenTickets = array();
+            $chosenTicketsOld = Cookie::get('chosenTickets');
 
             foreach ($chosenSeats as $thisSeat) {
                 $seatX = substr($thisSeat, 0, 1);
@@ -139,6 +143,7 @@ class DepartmentController extends Controller
                 ])->value('id');
 
                 DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
+                DB::update('update tickets set reservationDate = ? where seat_id = ? and event_id = ?', [$currTime, $seatID, $eventID]);
 
                 $thisTicket = DB::table('tickets')->where([
                     ['event_id', '=', $eventID],
@@ -148,15 +153,14 @@ class DepartmentController extends Controller
                 array_push($chosenTickets, $thisTicket);
             }
 
+            if ( $chosenTicketsOld != null) {
+                $chosenTickets = array_merge($chosenTickets, $chosenTicketsOld);
+            }
+
             Cookie::queue('chosenTickets', $chosenTickets, 20);
         }
 
         return redirect()->action('CartController@index');
-    }
-
-    public function autoRefresh($id, $available){
-
-        //
     }
 
     /**

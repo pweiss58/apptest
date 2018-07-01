@@ -23,6 +23,7 @@ Route::post('cart/{event}/{department}', 'DepartmentController@update');
 
 //Cart
 Route::get('cart', 'CartController@index')->name('cart');
+Route::post('cart', 'CartController@destroy');
 
 //Event
 Route::get('events', 'EventController@show')->name('event');

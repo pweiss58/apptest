@@ -19,8 +19,9 @@ class CreateTicketsTable extends Migration
             $table->integer('priceCategory');
             $table->text('description');
             $table->boolean('available');
+            $table->dateTime('reservationDate')->nullable();
             $table->boolean('paid');
-            $table->date('paymentDate')->nullable();
+            $table->dateTime('paymentDate')->nullable();
 
             $table->integer('event_id')->unsigned()->nullable();
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');

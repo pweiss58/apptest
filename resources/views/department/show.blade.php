@@ -1,8 +1,77 @@
+<?php
+if (isset($_GET['get_database_changes'])){
+
+    $unavailableSeatsIDs = DB::table('tickets')->where([
+        ['available', '=', false],
+        ['event_id', '=', $event->id],
+    ])->pluck('seat_id');
+
+    $unavailableSeatsIDsCount = DB::table('tickets')->where([
+        ['available', '=', false],
+        ['event_id', '=', $event->id],
+    ])->count();
+
+    $thisDepartmentsUnavailableSeatsX = array();
+    $i = 0;
+
+    if ($unavailableSeatsIDsCount > 0){
+
+    foreach ($unavailableSeatsIDs as $seatID){
+
+        $thisDepartmentsUnavailableSeatsX[$i] = DB::table('seats')->where([
+            ['id', '=', $seatID],
+            ['department_id', '=', $department->id],
+        ])->value('seatX');
+
+        $thisDepartmentsUnavailableSeatsY[$i] = DB::table('seats')->where([
+            ['id', '=', $seatID],
+            ['department_id', '=', $department->id],
+        ])->value('seatY');
+
+        $i++;
+    }
+
+    $thisDepartmentsUnavailableSeatsX = json_encode($thisDepartmentsUnavailableSeatsX);
+    echo $thisDepartmentsUnavailableSeatsX;
+
+    $thisDepartmentsUnavailableSeatsY = json_encode($thisDepartmentsUnavailableSeatsY);
+    echo $thisDepartmentsUnavailableSeatsY;
+    }
+
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+
+            setInterval(function() {
+
+                $.get('<?php echo $_SERVER['REQUEST_URI']; ?>?get_database_changes', function (receivedData) {
+
+                    if (receivedData != "") {
+                        var xString = receivedData.slice(0, receivedData.search("]") + 1);
+
+                        var yString = receivedData.slice(receivedData.search("]") + 1, receivedData.length);
+
+                        thisDepartmentsUnavailableSeatsX = JSON.parse(xString);
+                        thisDepartmentsUnavailableSeatsY = JSON.parse(yString);
+                    }
+                    else{
+                        thisDepartmentsUnavailableSeatsX = "";
+                        thisDepartmentsUnavailableSeatsY = "";
+                    }
+
+                });
+            }, 5 * 1000);   //5 sekunden
+        });
+    </script>
+
     <title>Department {{ $department->departmentNr }}</title>
     <style class="">
         *, *:before, *:after {
@@ -99,7 +168,7 @@
 
     </style>
 </head>
-<body>
+<body onload="buildSeatTable()">
 <h1>Department {{ $department->departmentNr }}</h1>
 <ul>
     <li>Amount of Rows: {{ $department->rowCount }}</li>
@@ -112,7 +181,7 @@
         <h1>Bitte bis zu 5 Sitzplätze auswählen.</h1>
     </div>
 
-    <div class="">
+    <div class="" id="seatChooserDiv">
         <form method="post" action="/cart/{{ $event->id }}/{{ $department->id }}" id="seatChooser">
             {{ csrf_field() }}
             <table id="seattable">
@@ -136,12 +205,53 @@
 
 <script>
 
-    setTimeout(function(){
+    <?php
+
+    $unavailableSeatsIDs = DB::table('tickets')->where([
+        ['available', '=', false],
+        ['event_id', '=', $event->id],
+    ])->pluck('seat_id');
+
+
+    $thisDepartmentsUnavailableSeatsX = "";
+    $thisDepartmentsUnavailableSeatsY = "";
+
+
+    if ($unavailableSeatsIDs != null){
+
+    $i = 0;
+
+    foreach ($unavailableSeatsIDs as $seatID){
+
+        $thisDepartmentsUnavailableSeatsX[$i] = DB::table('seats')->where([
+            ['id', '=', $seatID],
+            ['department_id', '=', $department->id],
+        ])->value('seatX');
+
+        $thisDepartmentsUnavailableSeatsY[$i] = DB::table('seats')->where([
+            ['id', '=', $seatID],
+            ['department_id', '=', $department->id],
+        ])->value('seatY');
+
+        $i++;
+    }
+    }
+
+    $thisDepartmentsUnavailableSeatsX = json_encode($thisDepartmentsUnavailableSeatsX);
+    echo "var thisDepartmentsUnavailableSeatsX = ". $thisDepartmentsUnavailableSeatsX . ";\n";
+
+    $thisDepartmentsUnavailableSeatsY = json_encode($thisDepartmentsUnavailableSeatsY);
+    echo "var thisDepartmentsUnavailableSeatsY = ". $thisDepartmentsUnavailableSeatsY . ";\n";
+
+
+    ?>
+
+    setInterval(function(){
 
         sessionStorage.clear();
 
         var array = [];
-        var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+        var checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
 
         for (var i = 0; i < checkboxes.length; i++) {
             array.push(checkboxes[i].value);
@@ -149,11 +259,7 @@
 
         sessionStorage.setItem("pickedSeats", array.toString());
 
-        location = ''
-
-    },60000);   //60 sekunden
-
-    window.onload = function() {
+        buildSeatTable();
 
         var pickedSeatsString = sessionStorage.getItem("pickedSeats");
 
@@ -169,89 +275,61 @@
 
                 for (var j = 0; j < pickedSeatsArray.length; j++) {
 
-                    if (pickedSeatsArray[j] == allSeatsArray[i].id) {
+                    if (pickedSeatsArray[j] == allSeatsArray[i].id && !allSeatsArray[i].disabled) {
 
                         allSeatsArray[i].checked = true;
                     }
                 }
-
             }
         }
-    };
+
+    },10000);   //10 sekunden
+
+    function buildSeatTable() {
 
 
-    <?php
+        var seatTable = document.getElementById("seattable");
 
-        $unavailableSeatsIDs = DB::table('tickets')->where([
-           ['available', '=', false],
-           ['event_id', '=', $event->id],
-        ])->pluck('seat_id');
+        seatTable.innerHTML = "";
 
-        $thisDepartmentsUnavailableSeatsX = array();
-        $i = 0;
+        for (var i = 0; i < "<?php echo $department->rowCount; ?>"; i++) {
+            var thisRow = seatTable.insertRow(i);
+            thisRow.setAttribute("class", "seats");
 
-        foreach ($unavailableSeatsIDs as $seatID){
+            for (var j = 0; j < "<?php echo $department->columnCount; ?>"; j++) {
 
-            $thisDepartmentsUnavailableSeatsX[$i] = DB::table('seats')->where([
-                ['id', '=', $seatID],
-                ['department_id', '=', $department->id],
-            ])->value('seatX');
+                var seatCheckbox = document.createElement("INPUT");
+                var seatLabel = document.createElement("LABEL");
+                var rowLetter = String.fromCharCode(65 + i);
+                var seatID = (rowLetter + (+j + 1));
 
-            $thisDepartmentsUnavailableSeatsY[$i] = DB::table('seats')->where([
-                ['id', '=', $seatID],
-                ['department_id', '=', $department->id],
-            ])->value('seatY');
+                seatCheckbox.setAttribute("type", "checkbox");
+                seatCheckbox.setAttribute("id", seatID);
+                seatCheckbox.setAttribute("name", "seats[]");
+                seatCheckbox.setAttribute("value", seatID);
 
-            $i++;
-        }
+                var x = i + 1;
+                var y = j + 1;
 
-    $thisDepartmentsUnavailableSeatsX = json_encode($thisDepartmentsUnavailableSeatsX);
-        echo "var thisDepartmentsUnavailableSeatsX = ". $thisDepartmentsUnavailableSeatsX . ";\n";
+                for (var k = 0; k < thisDepartmentsUnavailableSeatsX.length; k++) {
 
-    $thisDepartmentsUnavailableSeatsY = json_encode($thisDepartmentsUnavailableSeatsY);
-        echo "var thisDepartmentsUnavailableSeatsY = ". $thisDepartmentsUnavailableSeatsY . ";\n";
-    ?>
+                    if (thisDepartmentsUnavailableSeatsX[k] == x && thisDepartmentsUnavailableSeatsY[k] == y) {
 
-
-    var seatTable = document.getElementById("seattable");
-
-
-    for (var i = 0; i < "<?php echo $department->rowCount; ?>"; i++){
-        var thisRow = seatTable.insertRow(i);
-        thisRow.setAttribute("class", "seats");
-
-        for (var j = 0; j < "<?php echo $department->columnCount; ?>"; j++){
-
-            var seatCheckbox = document.createElement("INPUT");
-            var seatLabel = document.createElement("LABEL");
-            var rowLetter = String.fromCharCode(65 + i);
-            var seatID = (rowLetter + (+j + 1));
-
-            seatCheckbox.setAttribute("type", "checkbox");
-            seatCheckbox.setAttribute("id", seatID);
-            seatCheckbox.setAttribute("name", "seats[]");
-            seatCheckbox.setAttribute("value", seatID);
-
-            var x = i+1;
-            var y = j+1;
-
-            for (var k = 0; k < thisDepartmentsUnavailableSeatsX.length; k++){
-
-                if (thisDepartmentsUnavailableSeatsX[k] == x && thisDepartmentsUnavailableSeatsY[k] == y){
-
-                    seatCheckbox.setAttribute("disabled", "disabled");
+                        seatCheckbox.setAttribute("disabled", "disabled");
+                    }
                 }
+
+                seatLabel.setAttribute("for", seatID);
+                seatLabel.innerHTML = seatID;
+
+                var thisCell = thisRow.insertCell(j);
+                thisCell.setAttribute("class", "seat");
+                thisCell.appendChild(seatCheckbox);
+                thisCell.appendChild(seatLabel);
             }
-
-            seatLabel.setAttribute("for", seatID);
-            seatLabel.innerHTML = seatID;
-
-            var thisCell = thisRow.insertCell(j);
-            thisCell.setAttribute("class", "seat");
-            thisCell.appendChild(seatCheckbox);
-            thisCell.appendChild(seatLabel);
         }
     }
+
 </script>
 
 </body>

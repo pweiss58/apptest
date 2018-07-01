@@ -27,14 +27,32 @@ class CartController extends Controller
                 ['paid', '=', false],
             ])->get();
 
-            return view('cart.index', array('user' => $user, 'chosenTickets' => $chosenTickets));
+            $chosenTicketsCount = DB::table('tickets')->where([
+                ['user_id', '=', $userID],
+                ['paid', '=', false],
+            ])->count();
+
+            $reservationDate = null;
+
+            if ($chosenTicketsCount > 0) {
+                $reservationDate = $chosenTickets[0]->reservationDate;
+            }
+
+            return view('cart.index', array('user' => $user, 'chosenTickets' => $chosenTickets, 'reservationDate' => $reservationDate));
         }
 
         else {
 
             $chosenTickets = Cookie::get('chosenTickets');
+            $reservationDate = null;
+
+            if ($chosenTickets != null) {
+                $reservationDate = $chosenTickets[0]->reservationDate;
+            }
+
             $chosenTickets = collect($chosenTickets);
-            return view('cart.index', array('chosenTickets' => $chosenTickets));
+
+            return view('cart.index', array('chosenTickets' => $chosenTickets, 'reservationDate' => $reservationDate));
         }
 
     }
@@ -100,8 +118,24 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+
+        $chosenTicketIDs = $_POST['chosenTickets'];
+
+        $chosenTicketIDs = trim($chosenTicketIDs, "[]");
+
+        $chosenTicketIDsArr = explode(",", $chosenTicketIDs);
+
+        for ($i = 0; $i < count($chosenTicketIDsArr); $i++){
+
+            DB::table('tickets')->where([
+                ['id', '=', $chosenTicketIDsArr[$i]]
+            ])->update([
+                'reservationDate' => null,
+                'user_id' => null,
+                'available' => true,
+            ]);
+        }
     }
 }

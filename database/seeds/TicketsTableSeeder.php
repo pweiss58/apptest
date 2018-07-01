@@ -39,11 +39,12 @@ class TicketsTableSeeder extends Seeder
                             DB::table('tickets')->insert(array(
                                 'priceCategory' => random_int(1, 10),
                                 'description' => str_random(30),
-                                'available' => false,
+                                'available' => true,
                                 'paid' => false,
                                 //'paymentDate' => date("Y-m-d H:i:s",$int),
                                 'event_id' => $eventID,
                                 'seat_id' => $thisSeat->id,
+
                                 //'user_id' => random_int(1, (\App\User::all()->count())),
                             ));
                         }
