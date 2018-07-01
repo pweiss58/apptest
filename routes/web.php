@@ -38,7 +38,7 @@ Route::get('cart', 'CartController@index')->name('cart');
 Route::post('cart', 'CartController@destroy');
 
 //Eventset
-Route::get('{eventsetname}', 'EventsetController@show')->name('eventset');
+Route::get('event/{eventsetname}', 'EventsetController@show')->name('eventset');
 
 
 // Authentication Routes

@@ -13,7 +13,7 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>Artist</th>
+                <th>Event</th>
                 <th>Ort</th>
                 <th>Datum</th>
                 <th>Tickets</th>
@@ -24,9 +24,11 @@
             @foreach($events as $event)
                 <?php $thisLocation = DB::table('locations')->where([
                     ['id', '=', $event->location_id],
-                ])->first(); ?>
+                ])->first();
+                ?>
+
             <tr>
-                <td><a href="ticket.html" style="color:#444f51;">Kaleo</a></td>
+                <td><a href="ticket.html" style="color:#444f51;"> {{ $eventset->name }} </a></td>
                 <td>{{ $thisLocation->city }}, {{ $thisLocation->hallenName }}</td>
                 <td>{{ date("d.m.Y H:i", strtotime($event->startDate)) }} Uhr</td>
                 <td><a href="ticket.html" style="color:#444f51;">Tickets ab 39,65 Euro</a></td>
