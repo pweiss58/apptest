@@ -48,7 +48,7 @@
     if (reservationDate != "") {
 
         var countDownDate = new Date("<?php echo $reservationDate; ?>");
-        countDownDate = new Date(countDownDate.getTime() + 60000);  //1 minute
+        countDownDate = new Date(countDownDate.getTime() + 20 * 60000);  //20 minutes
 
         var x = setInterval(function () {
 
@@ -79,10 +79,6 @@
                     data: { chosenTickets: chosenTicketsJSON },
 
                 });
-
-                var data = {
-                    chosenTickets: chosenTicketsJSON
-                }
 
             }
         }, 1000);
