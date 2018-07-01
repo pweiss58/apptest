@@ -35,3 +35,6 @@ Auth::routes();
 //Home
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Email
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+
