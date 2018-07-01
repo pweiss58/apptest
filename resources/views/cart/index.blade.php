@@ -7,23 +7,37 @@
 </head>
 <body>
 <h1>Warenkorb</h1>
+
+<p id="timer"></p>
+
 <table id="tId">
     <p>{{count($chosenTickets)}} Tickets im Warenkorb. {{$reservationDate}}</p>
 
     @foreach ($chosenTickets as $ticket)
         <tr class="row">
 
-            <?php $thisEventset = DB::table('eventsets')->where('id', '=', DB::table('events')->where('id', '=', $ticket->event_id)->value('eventset_id'))->first(); ?>
-                <div class="col-md-3">
-                    html to render a product {{ $thisEventset->name }}
-                </div>
+            <?php
+            $thisEventset = DB::table('eventsets')->where('id', '=', DB::table('events')->where('id', '=', $ticket->event_id)->value('eventset_id'))->first();
+            $thisEvent = DB::table('events')->where([
+                ['id', '=', $ticket->event_id],
+            ])->first(); ?>
+
+            <div class="col-md-3">
+                {{ $thisEventset->name }} am {{ $thisEvent->startDate}}
+            </div>
 
         </tr>
     @endforeach
 
 </table>
 
-<p id="timer"></p>
+<div>
+
+    <button type="button" onclick="function checkout(){
+
+    }">Weiter zu Kasse</button>
+
+</div>
 
 </body>
 
@@ -59,7 +73,7 @@
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
+            document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s  bis zum Ablauf der Tickets!";
 
             if (distance < 0) {
                 clearInterval(x);

@@ -100,9 +100,7 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+        'email' => [ 'required' => 'Bitte gültige Email-Adresse eingeben.', 'unique' => 'Email-Adresse wird schon benutzt.']
     ],
 
     /*

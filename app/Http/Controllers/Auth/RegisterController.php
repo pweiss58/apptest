@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,11 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        return view('auth.login');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -57,6 +63,7 @@ class RegisterController extends Controller
             'plz' => 'nullable|string|min:2|max:20',
             'city' => 'nullable|string|min:2|max:255',
             'address' => 'nullable|string|min:6|max:255',
+            'agbCheck' => 'required',
         ]);
     }
 
