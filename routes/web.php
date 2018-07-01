@@ -61,3 +61,8 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('profile', 'ProfileController@index')->name('profile');
 Route::get('editprofile', 'ProfileController@edit');
 Route::post('profile', 'ProfileController@update')->name('profile');
+
+//Email
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+
+

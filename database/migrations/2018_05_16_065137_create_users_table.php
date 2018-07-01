@@ -18,7 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('email');
             $table->string('password');
-            $table->timestamps();
             $table->string('firstName')->nullable();
             $table->string('lastName')->nullable();
             $table->string('plz')->nullable();
@@ -27,8 +26,17 @@ class CreateUsersTable extends Migration
             $table->integer('customer_id')->unique();
             $table->string('remember_token')->nullable();
 
-           /* $table->integer('location_id')->unsigned()->nullable();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');*/
+            //Email Verification
+            $table->string('token')->nullable();
+            //fuer Studienarbeit auf true gesetzt -> da wir keine Emails verschicken - normalerweise:false
+            $table->boolean('verified')->default(true);
+
+
+            $table->timestamps();
+
+
+            /* $table->integer('location_id')->unsigned()->nullable();
+             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');*/
 
         });
     }
