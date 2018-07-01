@@ -7,6 +7,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use App\Mail\VerifyMail;
+
+
+
 
 class RegisterController extends Controller
 {
@@ -68,7 +75,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $randomInt = 0;
+        while ($randomInt == 0 || (DB::table('users')->where('customer_id','=',$randomInt)->first() != null)) {
+            $randomInt = random_int(000300000,999999999);
+        }
+
+
+        $user =  User::create([
             'username' => $data['username'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
@@ -77,12 +90,45 @@ class RegisterController extends Controller
             'plz' => $data['plz'],
             'city' => $data['city'],
             'address' => $data['address'],
-            'customer_id' => random_int(000000001, 999999999),
+            'customer_id' => $randomInt,
+
+            'token' => str_random(24)
         ]);
+
+
+        Mail::to($user->email)->send(new VerifyMail($user));
+
+        return $user;
     }
 
     protected function guard(){
         return Auth::guard('web');
 
+    }
+
+    public function verifyUser($token)
+    {
+        $verifyUser = DB::table('users')->where('token',$token)->first();
+        if(isset($verifyUser) ){
+            $user = $verifyUser->user;
+            if(!$user->verified) {
+                $verifyUser->user->verified = 1;
+                $verifyUser->user->save();
+                $status = "Your e-mail is verified. You can now login.";
+            }else{
+                $status = "Your e-mail is already verified. You can now login.";
+            }
+        }else{
+            return redirect('/login')->with('warning', "Sorry your email cannot be identified.");
+        }
+
+        return redirect('/login')->with('status', $status);
+    }
+
+
+    protected function registered(Request $request, $user)
+    {
+        $this->guard()->logout();
+        return redirect('/login')->with('status', 'We sent you an account activation link. Check your email and click on the link to verify it.');
     }
 }
