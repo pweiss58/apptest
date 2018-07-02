@@ -18,44 +18,46 @@
     <link rel="stylesheet" href="{{ asset('fonts/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fonts/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fonts/ionicons.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bungee+Inline">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bungee+Outline">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bungee+Shade">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Faster+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Megrim">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pattaya">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plaster">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Syncopate">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
 
 </head>
 <body style="font-family:Roboto, sans-serif;">
-<div id="app">
-    <div class="swiper-slide" style="background-image:url(https://placeholdit.imgix.net/~text?txtsize=68&amp;txt=Slideshow+Image&amp;w=1920&amp;h=500);background-color:#f4c9c9;"></div>
-    <div class="simple-slider">
-        <div class="swiper-container">
-            <div class="swiper-pagination"></div>
-        </div>
-    </div>
-    <div>
-        <nav class="navbar navbar-light navbar-expand-md" style="margin-top:30px;">
-            <div class="container"><a class="navbar-brand" href="{{ url('/') }}">Ticket Hall</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse"
-                     id="navcol-1">
-                    <form class="form-inline navbar-left">
-                        <div class="input-group"><span class="d-flex justify-content-center align-items-center input-group-addon" id="basic-addon1" style="height:38px;"><i class="fa fa-search" style="color:rgba(33,37,41,0.5);"></i></span><input class="form-control" type="text"
-                                                                                                                                                                                                                                                     placeholder="Suche" aria-describedby="basic-addon1"></div>
-                    </form>
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="color:rgba(0,0,0,0.5);">Events</a>
-                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" style="color:rgba(0,0,0,0.5);">Rock</a><a class="dropdown-item" role="presentation" href="#" style="color:rgba(0,0,0,0.5);">Pop</a><a class="dropdown-item" role="presentation"
-                                                                                                                                                                                                                                                               href="#" style="color:rgba(0,0,0,0.5);">Klassik</a></div>
-                        </li>
-                        <li class="dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="color:rgba(0,0,0,0.5);">Orte</a>
-                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" style="color:rgba(0,0,0,0.5);">Berlin</a><a class="dropdown-item" role="presentation" href="#" style="color:rgba(0,0,0,0.5);">München</a><a class="dropdown-item" role="presentation"
-                                                                                                                                                                                                                                                                     href="#" style="color:rgba(0,0,0,0.5);">Hamburg</a></div>
-                        </li>
-                        <li class="nav-item" role="presentation"><a class="nav-link active d-flex" href="{{ url('/login') }}" style="color:rgba(0,0,0,0.5);">Login</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="{{ url('/cart') }}" style="color:rgba(0,0,0,0.5);">Warenkorb</a></li>
-                    </ul>
-                </div>
+<div>
+    <nav class="navbar navbar-light navbar-expand-md" style="margin-top:30px;">
+        <div class="container"><a class="navbar-brand" href="{{ url('/') }}" style="background-image:url(&quot;#&quot;);background-repeat:no-repeat;background-size:contain;font-family:'Bungee Outline', cursive;font-size:40px;">Kartenhaus</a><button class="navbar-toggler" data-toggle="collapse"
+                                                                                                                                                                                                                                                     data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <form class="form-inline navbar-left">
+                    <div class="input-group"><span class="d-flex justify-content-center align-items-center input-group-addon" id="basic-addon1" style="height:38px;"><i class="fa fa-search" style="color:rgba(33,37,41,0.5);"></i></span><input class="form-control" type="text"
+                                                                                                                                                                                                                                                 placeholder="Suche" aria-describedby="basic-addon1"></div>
+                </form>
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="color:rgba(0,0,0,0.5);">Events</a>
+                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="rock.html" style="color:rgba(0,0,0,0.5);">Rock</a><a class="dropdown-item" role="presentation" href="pop.html" style="color:rgba(0,0,0,0.5);">Pop</a><a class="dropdown-item"
+                                                                                                                                                                                                                                                                          role="presentation" href="klassik.html" style="color:rgba(0,0,0,0.5);">Klassik</a></div>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="color:rgba(0,0,0,0.5);">Orte</a>
+                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" style="color:rgba(0,0,0,0.5);">Berlin</a><a class="dropdown-item" role="presentation" href="#" style="color:rgba(0,0,0,0.5);">München</a><a class="dropdown-item" role="presentation"
+                                                                                                                                                                                                                                                                 href="#" style="color:rgba(0,0,0,0.5);">Hamburg</a></div>
+                    </li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active d-flex" href="{{ url('/login') }}" style="color:rgba(0,0,0,0.5);">Login</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="{{ url('/cart') }}" style="color:rgba(0,0,0,0.5);">Warenkorb</a></li>
+                </ul>
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
+</div>
 
     @yield('content')
 

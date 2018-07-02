@@ -2,6 +2,19 @@
 
 @section('content')
 
+    <!-- alert message -->
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
+    @if (session('warning'))
+        <div class="alert alert-warning">
+            {{ session('warning') }}
+        </div>
+    @endif
+
+
     <!-- Login -->
     <div class="login-dark" style="height:600px;background-image:url(&quot;/img/concert.jpg&quot;);margin-top:0px;">
         <form method="POST" action="{{ route('login') }}" style="background-color:#ffffff;padding-top:25px;">

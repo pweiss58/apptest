@@ -41,9 +41,9 @@ class ResetExpiredTickets extends Command
         $currTime = new \DateTime(null, new \DateTimeZone('Europe/Berlin'));
         //$currTime = date("Y-m-d H:i:s");
 
-        $currTimeMinusCountdown = $currTime->sub(new \DateInterval('PT20M'));
+        $currTimeMinusCountdown = $currTime->sub(new \DateInterval('PT1M'));
 
-        DB::table('tickets')->where('reservationDate', '<', $currTimeMinusCountdown)->update([
+        DB::table('tickets')->where('reservationDate', '<=', $currTimeMinusCountdown)->update([
             'reservationDate' => null,
             'user_id' => null,
             'available' => true,

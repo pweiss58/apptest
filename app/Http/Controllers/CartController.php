@@ -17,7 +17,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        if (Auth::check()) {
+        /*if (Auth::check()) {
 
             $user = Auth::user();
             $userID = Auth::id();
@@ -41,19 +41,22 @@ class CartController extends Controller
             return view('cart.index', array('user' => $user, 'chosenTickets' => $chosenTickets, 'reservationDate' => $reservationDate));
         }
 
-        else {
+        else {*/
 
             $chosenTickets = Cookie::get('chosenTickets');
             $reservationDate = null;
 
             if ($chosenTickets != null) {
-                $reservationDate = $chosenTickets[0]->reservationDate;
+
+                $reservationDate = DB::table('tickets')->where([
+                    ['id', '=', $chosenTickets[0]->id],
+                ])->value('reservationDate');
             }
 
             $chosenTickets = collect($chosenTickets);
 
             return view('cart.index', array('chosenTickets' => $chosenTickets, 'reservationDate' => $reservationDate));
-        }
+        //}
 
     }
 

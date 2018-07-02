@@ -19,6 +19,7 @@ class CreateDepartmentsTable extends Migration
             $table->integer('rowCount');
             $table->integer('columnCount');
             $table->integer('departmentNr');
+            $table->string('description');
 
             $table->integer('location_id')->unsigned()->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');

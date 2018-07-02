@@ -31,7 +31,7 @@ Route::get('contact', function(){
 
 //Department
 Route::get('eventset/{eventset}/{event}/{department}', 'DepartmentController@show')->name('department');
-Route::post('cart/{event}/{department}', 'DepartmentController@update');
+//Route::post('cart/{event}/{department}', 'DepartmentController@update');
 
 //Cart
 Route::get('cart', 'CartController@index')->name('cart');
@@ -39,6 +39,10 @@ Route::post('cart', 'CartController@destroy');
 
 //Eventset
 Route::get('event/{eventsetname}', 'EventsetController@show')->name('eventset');
+
+//Tickets bzw. Event
+Route::get('event/{eventsetname}/{eventnr}/tickets', 'TicketController@show')->name('tickets');
+Route::post('cart/{event}', 'TicketController@update');
 
 
 // Authentication Routes

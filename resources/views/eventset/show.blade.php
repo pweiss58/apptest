@@ -22,17 +22,19 @@
             <tbody>
 
             @foreach($events as $event)
+
                 <?php $thisLocation = DB::table('locations')->where([
                     ['id', '=', $event->location_id],
                 ])->first();
                 ?>
 
             <tr>
-                <td><a href="ticket.html" style="color:#444f51;"> {{ $eventset->name }} </a></td>
+                <td><a href="{{$eventset->name}}/{{$event->eventNr}}/tickets" style="color:#444f51;"> {{ $eventset->name }} </a></td>
                 <td>{{ $thisLocation->city }}, {{ $thisLocation->hallenName }}</td>
                 <td>{{ date("d.m.Y H:i", strtotime($event->startDate)) }} Uhr</td>
-                <td><a href="ticket.html" style="color:#444f51;">Tickets ab 39,65 Euro</a></td>
+                <td><a href="{{$eventset->name}}/{{$event->eventNr}}/tickets" style="color:#444f51;">Tickets ab 39,65 Euro</a></td>
             </tr>
+
             @endforeach
 
             </tbody>
