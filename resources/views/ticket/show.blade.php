@@ -15,9 +15,11 @@ if (isset($_GET['get_database_changes'])) {
 
         $thisDepartmentsUnavailableSeatsX = array();
         $thisDepartmentsUnavailableSeatsY = array();
-        $i = 0;
+
 
         if ($unavailableSeatsIDsCount > 0) {
+
+            $i = 0;
 
             foreach ($unavailableSeatsIDs as $seatID) {
 
@@ -48,6 +50,9 @@ if (isset($_GET['get_database_changes'])) {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+   /* var allUnavailableSeatsXs = [[]];
+    var allUnavailableSeatsYs = [[]];*/
+
     $(function () {
 
         setInterval(function () {
@@ -55,6 +60,7 @@ if (isset($_GET['get_database_changes'])) {
             $.get('<?php echo $_SERVER['REQUEST_URI']; ?>?get_database_changes', function (receivedData) {
 
                 if (receivedData != "") {
+
 
                     for (var h = 1; h <= departmentNrs.length; h++) {
 
@@ -71,24 +77,27 @@ if (isset($_GET['get_database_changes'])) {
 
                         console.log(thisDepartmentXYString);
 
-                        var xString = receivedData.slice(0, receivedData.search("]") + 1);
+                        var xString = thisDepartmentXYString.slice(0, thisDepartmentXYString.search("]") + 1);
 
-                        var yString = receivedData.slice(receivedData.search("]") + 1, nthIndex(receivedData, ']', 2) + 1);
+                        var yString = thisDepartmentXYString.slice(thisDepartmentXYString.search("]") + 1, nthIndex(thisDepartmentXYString, ']', 2) + 1);
 
                         //console.log(receivedData);
-                        //console.log(xString);
-                        //console.log(yString);
+                        console.log(xString);
+                        console.log(yString);
 
-                        var thisDepartmentsUnavailableSeatsX = JSON.parse(xString);
-                        var thisDepartmentsUnavailableSeatsY = JSON.parse(yString);
+                        //thisDepartmentsUnavailableSeatsX = JSON.parse(xString);
+                        //thisDepartmentsUnavailableSeatsY = JSON.parse(yString);
 
-                        //console.log(thisDepartmentsUnavailableSeatsX);
-                        //console.log(thisDepartmentsUnavailableSeatsY);
+                        allUnavailableSeatsXs.push(JSON.parse(xString));
+                        allUnavailableSeatsYs.push(JSON.parse(yString));
+
+                        console.log(allUnavailableSeatsXs);
+                        console.log(allUnavailableSeatsYs);
                     }
                 }
                 else {
-                    thisDepartmentsUnavailableSeatsX = "";
-                    thisDepartmentsUnavailableSeatsY = "";
+                    allUnavailableSeatsXs = "";
+                    allUnavailableSeatsYs = "";
                 }
 
             });
@@ -452,9 +461,14 @@ if (isset($_GET['get_database_changes'])) {
                         var x = i + 1;
                         var y = j + 1;
 
-                        for (var k = 0; k < thisDepartmentsUnavailableSeatsX.length; k++) {
+                        //allUnavailableSeatsXs[h] = new Array();
+                        //allUnavailableSeatsYs[h] = new Array();
 
-                            if (thisDepartmentsUnavailableSeatsX[k] == x && thisDepartmentsUnavailableSeatsY[k] == y) {
+                        console.log(allUnavailableSeatsXs);
+
+                        for (var k = 0; k < allUnavailableSeatsXs[h][0].length; k++) {
+
+                            if (allUnavailableSeatsXs[h][k] == x && allUnavailableSeatsYs[h][k] == y) {
 
                                 seatCheckbox.setAttribute("disabled", "disabled");
                             }
