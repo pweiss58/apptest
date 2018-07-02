@@ -101,9 +101,71 @@ class TicketController extends Controller
 
                 $iString = "seats".strval($i);
 
-                $amountOfChosenTickets = $_POST[$iString];
 
-                if ($amountOfChosenTickets > 0) {
+                if(isset($_POST[$iString])) {       //Bestplatzbuchung
+
+                    $amountOfChosenTickets = $_POST[$iString];
+
+                    if ($amountOfChosenTickets > 0) {
+
+                        $chosenTickets = array();
+                        $chosenTicketsOld = Cookie::get('chosenTickets');
+
+                        $thisDepartmentID = DB::table('departments')->where([
+                            ['location_id', '=', $locationID],
+                            ['departmentNr', '=', $i],
+                        ])->value('id');
+
+                        $thisDepartmentsSeatIDs = DB::table('seats')->where([
+                            ['department_id', '=', $thisDepartmentID],
+                        ])->pluck('id');
+
+                        for ($j = 1; $j <= $amountOfChosenTickets; $j++) {
+
+                            $thisTicket = DB::table('tickets')->where([
+                                ['event_id', '=', $eventID],
+                                ['available', '=', true],
+                            ])->whereIn('seat_id', $thisDepartmentsSeatIDs)->first();
+
+                            array_push($chosenTickets, $thisTicket);
+
+                            DB::table('tickets')->where([
+                                ['id', '=', $thisTicket->id],
+                            ])->update([
+                                'available' => false,
+                                'reservationDate' => $currTime,
+                            ]);
+                        }
+
+                        if ($chosenTicketsOld != null) {
+                            $chosenTickets = array_merge($chosenTickets, $chosenTicketsOld);
+                        }
+
+                        Cookie::queue('chosenTickets', $chosenTickets, 1);
+
+                        return redirect()->action('CartController@index');
+
+                    }
+                    else return back();
+                }
+                else {                               //Sitzplatzauswahl
+
+                    $alphabet = range('A', 'Z');
+                    $chosenSeats = $request->input('seats');
+
+                    $errormessages = [
+                        'required' => 'Es muss mindestens ein Sitzplatz ausgewählt sein!',
+                        'max' => 'Es dürfen maximal 5 Sitzplätze ausgewählt sein!',
+                    ];
+
+                    $this->validate($request,[
+                        'seats' => 'required',
+                    ], $errormessages);
+
+                    $this->validate($request,[
+                        'seats' => 'max:5',
+                    ], $errormessages);
+
 
                     $chosenTickets = array();
                     $chosenTicketsOld = Cookie::get('chosenTickets');
@@ -113,28 +175,29 @@ class TicketController extends Controller
                         ['departmentNr', '=', $i],
                     ])->value('id');
 
-                    $thisDepartmentsSeatIDs = DB::table('seats')->where([
-                        ['department_id', '=', $thisDepartmentID],
-                    ])->pluck('id');
+                    foreach ($chosenSeats as $thisSeat) {
+                        $seatX = substr($thisSeat, 0, 1);
+                        $seatX = array_search($seatX, $alphabet) + 1;
+                        $seatY = substr($thisSeat, 1);
 
-                    for ($j = 1; $j <= $amountOfChosenTickets; $j++) {
+                        $seatID = DB::table('seats')->where([
+                            ['seatX', '=', $seatX],
+                            ['seatY', '=', $seatY],
+                            ['department_id', '=', $thisDepartmentID],
+                        ])->value('id');
+
+                        DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
+                        DB::update('update tickets set reservationDate = ? where seat_id = ? and event_id = ?', [$currTime, $seatID, $eventID]);
 
                         $thisTicket = DB::table('tickets')->where([
                             ['event_id', '=', $eventID],
-                            ['available', '=', true],
-                        ])->whereIn('seat_id', $thisDepartmentsSeatIDs)->first();
+                            ['seat_id', '=', $seatID],
+                        ])->first();
 
                         array_push($chosenTickets, $thisTicket);
-
-                        DB::table('tickets')->where([
-                            ['id', '=', $thisTicket->id],
-                        ])->update([
-                            'available' => false,
-                            'reservationDate' => $currTime,
-                        ]);
                     }
 
-                    if ($chosenTicketsOld != null) {
+                    if ( $chosenTicketsOld != null) {
                         $chosenTickets = array_merge($chosenTickets, $chosenTicketsOld);
                     }
 
@@ -143,10 +206,10 @@ class TicketController extends Controller
                     return redirect()->action('CartController@index');
 
                 }
-
-                else return back();
             }
         }
+
+
 
        return back();
     }

@@ -45,17 +45,27 @@ class CartController extends Controller
 
             $chosenTickets = Cookie::get('chosenTickets');
             $reservationDate = null;
+            $chosenTicketIDs = array();
+            $eventsIDs = null;
 
             if ($chosenTickets != null) {
 
                 $reservationDate = DB::table('tickets')->where([
                     ['id', '=', $chosenTickets[0]->id],
                 ])->value('reservationDate');
+
+                $chosenTickets = collect($chosenTickets);
+
+                foreach($chosenTickets as $ticket){
+
+                    array_push($chosenTicketIDs, $ticket->id);
+                }
+
+                $eventsIDs = DB::table('tickets')->whereIn('id', $chosenTicketIDs)->pluck('event_id')->unique();
             }
+            else $chosenTickets = collect($chosenTickets);
 
-            $chosenTickets = collect($chosenTickets);
-
-            return view('cart.index', array('chosenTickets' => $chosenTickets, 'reservationDate' => $reservationDate));
+            return view('cart.index', array('chosenTickets' => $chosenTickets, 'chosenTicketIDs' => $chosenTicketIDs, 'eventIDs' => $eventsIDs, 'reservationDate' => $reservationDate));
         //}
 
     }
