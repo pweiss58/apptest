@@ -97,7 +97,7 @@ class RegisterController extends Controller
             'city' => $data['city'],
             'address' => $data['address'],
             'customer_id' => $randomInt,
-
+            'type' => User::DEFAULT_TYPE,
             'token' => str_random(24)
         ]);
 

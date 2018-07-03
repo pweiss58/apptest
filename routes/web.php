@@ -66,7 +66,10 @@ Route::get('profile', 'ProfileController@index')->name('profile');
 Route::get('editprofile', 'ProfileController@edit');
 Route::post('profile', 'ProfileController@update')->name('profile');
 
-//Email
+//Email verification
 Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+
+//Admin-access
+Route::get('/admin', 'AdminController@admin')->middleware('is_admin')->name('admin');
 
 
