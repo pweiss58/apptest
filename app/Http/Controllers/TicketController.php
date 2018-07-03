@@ -95,16 +95,18 @@ class TicketController extends Controller
             ['id', '=', $locationID],
         ])->value('departmentCount');
 
-        for ($i = 1; $i <= $departmentCount; $i++){
+        for ($departmentNr = 1; $departmentNr <= $departmentCount; $departmentNr++){
 
-            if (isset($_POST[$i])){
+            if (isset($_POST[$departmentNr])){
 
-                $iString = "seats".strval($i);
+                $bestPlatzString = "seatsbp".strval($departmentNr);
+
+                $seatChooserString = "seats".strval($departmentNr);
 
 
-                if(isset($_POST[$iString])) {       //Bestplatzbuchung
+                if(isset($_POST[$bestPlatzString])) {       //Bestplatzbuchung
 
-                    $amountOfChosenTickets = $_POST[$iString];
+                    $amountOfChosenTickets = $_POST[$bestPlatzString];
 
                     if ($amountOfChosenTickets > 0) {
 
@@ -113,7 +115,7 @@ class TicketController extends Controller
 
                         $thisDepartmentID = DB::table('departments')->where([
                             ['location_id', '=', $locationID],
-                            ['departmentNr', '=', $i],
+                            ['departmentNr', '=', $departmentNr],
                         ])->value('id');
 
                         $thisDepartmentsSeatIDs = DB::table('seats')->where([
@@ -151,7 +153,8 @@ class TicketController extends Controller
                 else {                               //Sitzplatzauswahl
 
                     $alphabet = range('A', 'Z');
-                    $chosenSeats = $request->input('seats');
+                    //$chosenSeats = $request->input('');
+                    $chosenSeats = $_POST[$seatChooserString];
 
                     $errormessages = [
                         'required' => 'Es muss mindestens ein Sitzplatz ausgewählt sein!',
@@ -159,11 +162,11 @@ class TicketController extends Controller
                     ];
 
                     $this->validate($request,[
-                        'seats' => 'required',
+                        $seatChooserString => 'required',
                     ], $errormessages);
 
                     $this->validate($request,[
-                        'seats' => 'max:5',
+                        $seatChooserString => 'max:5',
                     ], $errormessages);
 
 
@@ -172,7 +175,7 @@ class TicketController extends Controller
 
                     $thisDepartmentID = DB::table('departments')->where([
                         ['location_id', '=', $locationID],
-                        ['departmentNr', '=', $i],
+                        ['departmentNr', '=', $departmentNr],
                     ])->value('id');
 
                     foreach ($chosenSeats as $thisSeat) {

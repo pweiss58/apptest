@@ -22,8 +22,8 @@ class DepartmentsTableSeeder extends Seeder
             for ($i = 1; $i <= (\App\Location::all()->where('id', T_IS_EQUAL, $locationID )->first()->departmentCount); $i++){
 
                 DB::table('departments')->insert(array(
-                    'rowCount' => random_int(5, 15),
-                    'columnCount' => random_int(5, 10),
+                    'rowCount' => random_int(5, 10),
+                    'columnCount' => random_int(7, 10),
                     'departmentNr' => $i,
                     'description' => $availableDescriptions[array_rand($availableDescriptions, 1)],
                     'location_id' => $locationID,

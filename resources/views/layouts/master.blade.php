@@ -70,9 +70,13 @@
                                     href="#" style="color:rgba(0,0,0,0.5);">Hamburg</a></div>
                     </li>
                     @if(Auth::check())
-                    <li class="nav-item" role="presentation"><a class="nav-link active d-flex"
-                                                                href="{{ url('/profile') }}"
-                                                                style="color:rgba(0,0,0,0.5);">Profile</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link active d-flex"
+                                                                    href="{{ url('/profile') }}"
+                                                                    style="color:rgba(0,0,0,0.5);">Profile</a></li>
+
+                        <li class="nav-item" role="presentation"><a class="nav-link active d-flex"
+                                                                    href="{{ url('/logout') }}"
+                                                                    style="color:rgba(0,0,0,0.5);">Logout</a></li>
 
                     @else
 
