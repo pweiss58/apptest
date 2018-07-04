@@ -50,8 +50,6 @@ if (isset($_GET['get_database_changes'])) {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    /* var allUnavailableSeatsXs = [[]];
-     var allUnavailableSeatsYs = [[]];*/
 
     $(function () {
 
@@ -67,36 +65,18 @@ if (isset($_GET['get_database_changes'])) {
 
                     for (var h = 1; h <= departmentNrs.length; h++) {
 
-                        //console.log(receivedData);
-
                         var thisDepartmentXYString = receivedData.slice(nthIndex(receivedData, '[', h * 2 - 1), nthIndex(receivedData, ']', h * 2) + 1);
-
-                        //console.log(thisDepartmentXYString);
 
                         var xString = thisDepartmentXYString.slice(0, thisDepartmentXYString.search("]") + 1);
 
                         var yString = thisDepartmentXYString.slice(thisDepartmentXYString.search("]") + 1, nthIndex(thisDepartmentXYString, ']', 2) + 1);
 
-                        //console.log(xString);
-                        //console.log(yString);
-
-                        //thisDepartmentsUnavailableSeatsX = JSON.parse(xString);
-                        //thisDepartmentsUnavailableSeatsY = JSON.parse(yString);
-
-                        //console.log(Object.values(allUnavailableSeatsX));
-                        //console.log(Object.values(allUnavailableSeatsY));
-
                         allUnavailableSeatsX = Object.values(allUnavailableSeatsX);
                         allUnavailableSeatsY = Object.values(allUnavailableSeatsY);
-
-
-                        //console.log("---------------------");
 
                         allUnavailableSeatsX.push(JSON.parse(xString));
                         allUnavailableSeatsY.push(JSON.parse(yString));
 
-                        //console.log(allUnavailableSeatsX);
-                        //console.log(allUnavailableSeatsY);
                     }
                 }
                 else {
@@ -115,7 +95,7 @@ if (isset($_GET['get_database_changes'])) {
 
 @section ('content')
 
-    <style class="">
+   <!-- <style class="">
         *, *:before, *:after {
             box-sizing: border-box;
         }
@@ -208,7 +188,7 @@ if (isset($_GET['get_database_changes'])) {
             box-shadow: 0 0 0px 2px #7B2AFF;
         }
 
-    </style>
+    </style>-->
 
 
     <div class="jumbotron flex-row-reverse"
@@ -501,11 +481,9 @@ if (isset($_GET['get_database_changes'])) {
             }
 
             $thisDepartmentsUnavailableSeatsX = json_encode($thisDepartmentsUnavailableSeatsX);
-            //echo "var thisDepartmentsUnavailableSeatsX = " . $thisDepartmentsUnavailableSeatsX . ";\n";
             array_push($allUnavailableSeatsX, $thisDepartmentsUnavailableSeatsX);
 
             $thisDepartmentsUnavailableSeatsY = json_encode($thisDepartmentsUnavailableSeatsY);
-            //echo "var thisDepartmentsUnavailableSeatsY = " . $thisDepartmentsUnavailableSeatsY . ";\n";
             array_push($allUnavailableSeatsY, $thisDepartmentsUnavailableSeatsY);
         }
 
@@ -557,7 +535,6 @@ if (isset($_GET['get_database_changes'])) {
                     checkboxArray.push(checkedCheckboxes[g].value);
                 }
 
-                //console.log(checkboxArray.toString());
 
                 sessionStorage.setItem("pickedSeats{{ $department->departmentNr }}", checkboxArray.toString());
 
@@ -579,37 +556,6 @@ if (isset($_GET['get_database_changes'])) {
 
                     thisAllSeatIDsArray.push(thisAllSeatsArray[h].id);
                 }
-
-                //console.log(allSeatIDsArray);
-
-                //var allSeatIDsString = thisAllSeatIDsArray.toString();
-
-                //console.log(allSeatIDsString);
-
-                //console.log(pickedSeatIDsString);
-
-
-                //var thisDepartmentSeatCount = "{{ $department->rowCount }}" * "{{ $department-> columnCount }}";
-
-
-                /*if (nthIndex(thisPickedSeatIDsString, 'A1', {{ $department->departmentNr }} +1) < 0) {
-
-                    var thisPickedSeatIDsString = thisPickedSeatIDsString.slice(nthIndex(thisPickedSeatIDsString, 'A1', {{ $department->departmentNr }}));
-                    var thisAllSeatIDsString = allSeatIDsString.slice(nthIndex(allSeatIDsString, 'A1', {{ $department->departmentNr }} ));
-
-                }
-                else {
-
-                    //console.log(nthIndex(pickedSeatIDsString, 'A1', {{ $department->departmentNr }} +1));
-                    var thisPickedSeatIDsString = thisPickedSeatIDsString.slice(nthIndex(thisPickedSeatIDsString, 'A1', {{ $department->departmentNr }} ), nthIndex(thisPickedSeatIDsString, 'A1', {{ $department->departmentNr }} +1));
-                    var thisAllSeatIDsString = allSeatIDsString.slice(nthIndex(allSeatIDsString, 'A1', {{ $department->departmentNr }} ), nthIndex(allSeatIDsString, 'A1', {{ $department->departmentNr }} +1) - 1);
-
-                }*/
-
-
-                //console.log(thisPickedSeatIDsString);
-                //console.log(thisAllSeatIDsString);
-
 
                 if (thisPickedSeatIDsString != null) {
 
@@ -676,11 +622,6 @@ if (isset($_GET['get_database_changes'])) {
                             var x = i + 1;
                             var y = j + 1;
 
-                            //allUnavailableSeatsX[h] = new Array();
-                            //allUnavailableSeatsY[h] = new Array();
-
-                            //console.log(allUnavailableSeatsX.length);
-
                             if (allUnavailableSeatsX.length > 0) {
 
                                 for (var k = 0; k < allUnavailableSeatsX.length; k++) {
@@ -719,43 +660,7 @@ if (isset($_GET['get_database_changes'])) {
             }
             return i;
         }
-
-        function showAndHide(departmentNr) {
-
-            /*var checkboxes = [];
-            var labels = [];
-
-            @foreach($departments as $department)
-
-            if (departmentNr == "{{ $department->departmentNr }}") {
-
-                //document.getElementById("item-2-{{ $department->departmentNr }}").style.height = "";
-                checkboxes = document.getElementsByClassName("foldTest{{ $department->departmentNr }}");
-
-                for (var i = 0; i < checkboxes.length; i++){
-
-                    checkboxes[i].setAttribute("style", "height: 30; width: 30;");
-                    labels[i].setAttribute("style", "height: 30; width: 30;");
-                    console.log("changed back");
-                }
-            }
-            else {
-
-                //document.getElementById("item-2-{{ $department->departmentNr }}").style.height = "0";
-                checkboxes = document.getElementsByClassName("foldTest{{ $department->departmentNr }}");
-                labels = document.getElementsByClassName("foldsTest{{ $department->departmentNr }}");
-
-                for (var j = 0; j < checkboxes.length; j++){
-
-                    checkboxes[j].setAttribute("style", "height: 0; width: 0;");
-                    labels[j].setAttribute("style", "height: 0; width: 0;");
-                    console.log("changed down");
-                }
-            }
-
-            @endforeach*/
-        }
-
+        
         buildSeatTable(1);
 
     </script>
