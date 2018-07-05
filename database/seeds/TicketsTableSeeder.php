@@ -33,7 +33,6 @@ class TicketsTableSeeder extends Seeder
                             ['seatY', '=', $j],
                         ])->first();
 
-                        //$int= rand(1162055681,1262055681);
 
                         if($j == 1){
                             DB::table('tickets')->insert(array(
@@ -41,11 +40,8 @@ class TicketsTableSeeder extends Seeder
                                 'description' => str_random(30),
                                 'available' => true,
                                 'paid' => false,
-                                //'paymentDate' => date("Y-m-d H:i:s",$int),
                                 'event_id' => $eventID,
                                 'seat_id' => $thisSeat->id,
-
-                                //'user_id' => random_int(1, (\App\User::all()->count())),
                             ));
                         }
 
@@ -55,10 +51,8 @@ class TicketsTableSeeder extends Seeder
                                 'description' => str_random(30),
                                 'available' => true,
                                 'paid' => false,
-                                //'paymentDate' => date("Y-m-d H:i:s",$int),
                                 'event_id' => $eventID,
                                 'seat_id' => $thisSeat->id,
-                                //'user_id' => random_int(1, (\App\User::all()->count())),
                             ));
                         }
                     }

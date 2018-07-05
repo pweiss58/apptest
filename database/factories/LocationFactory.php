@@ -7,7 +7,7 @@ $factory->define(App\Location::class, function (Faker $faker) {
         'plz' => $faker->postcode,
         'city' => $faker->city,
         'address' => $faker->address,
-        'hallenName' => $faker->word,
+        'hallenName' => $faker->word."-Halle",
         'anfahrtsLink' => $faker->url,
         'departmentCount' => $faker->numberBetween(1, 6),
     ];

@@ -17,7 +17,10 @@ class CreateEventsetsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
-            $table->text('description');
+            $table->text('shortDescription');
+            $table->text('longDescription');
+            $table->string('teaserImage');
+            $table->string('bannerImage');
             $table->integer('eventCount');
 
             $table->integer('category_id')->unsigned()->nullable();

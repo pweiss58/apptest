@@ -95,7 +95,7 @@ if (isset($_GET['get_database_changes'])) {
 
 @section ('content')
 
-   <!-- <style class="">
+    <style class="">
         *, *:before, *:after {
             box-sizing: border-box;
         }
@@ -128,22 +128,28 @@ if (isset($_GET['get_database_changes'])) {
             padding: 4px;
             position: relative;
         }
+
         .seat:nth-child(3) {
             /*
               margin-right: 14.285%;
               */
         }
+
         .seat input[type=checkbox] {
             position: absolute;
             opacity: 0;
         }
+
         .seat input[type=checkbox]:checked + label {
-            background: yellow;
+            /*background: yellow;*/
+            background: rgb(0, 123, 255);
+            color: white;
             /*border: 1px solid black;*/
-            -webkit-box-shadow:inset 0px 0px 0px 1px #000;
-            -moz-box-shadow:inset 0px 0px 0px 1px #000;
-            box-shadow:inset 0px 0px 0px 1px #000;
+            -webkit-box-shadow: inset 0px 0px 0px 1px #000;
+            -moz-box-shadow: inset 0px 0px 0px 1px #000;
+            box-shadow: inset 0px 0px 0px 1px #000;
         }
+
         .seat input[type=checkbox]:disabled + label {
             background: red;
             /*
@@ -152,18 +158,20 @@ if (isset($_GET['get_database_changes'])) {
           box-shadow:inset 0px 0px 0px 1px #000;
             */
         }
+
         .seat input[type=checkbox]:disabled + label:after {
             text-indent: 0;
             position: absolute;
             top: 4px;
             left: 50%;
         }
+
         .seat input[type=checkbox]:disabled + label:hover {
             box-shadow: none;
             cursor: not-allowed;
         }
 
-        input[type=submit]{
+        input[type=submit] {
             margin-top: 20px;
             margin-bottom: 20px;
         }
@@ -185,10 +193,10 @@ if (isset($_GET['get_database_changes'])) {
 
         .seat label:hover {
             cursor: pointer;
-            box-shadow: 0 0 0px 2px #7B2AFF;
+            box-shadow: 0 0 0 2px #7B2AFF;
         }
 
-    </style>-->
+    </style>
 
 
     <div class="jumbotron flex-row-reverse"
@@ -236,7 +244,8 @@ if (isset($_GET['get_database_changes'])) {
                                         <td style="padding-top:18px;">{{ $department->description }}</td>
                                         <td style="padding-top:18px;">00,00 EURO</td>
                                         <td>
-                                            <select name="seatsbp{{ $department->departmentNr }}" style="margin-top:6px;">
+                                            <select name="seatsbp{{ $department->departmentNr }}"
+                                                    style="margin-top:6px;">
                                                 <option value="0" selected>0</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -259,108 +268,6 @@ if (isset($_GET['get_database_changes'])) {
                         </form>
                     </div>
                 </div>
-
-
-                <style class="">
-                    *, *:before, *:after {
-                        box-sizing: border-box;
-                    }
-
-                    html {
-                        font-size: 16px;
-                    }
-
-                    .outer {
-                        /*margin: 20px auto;*/
-                        max-width: 300px;
-                    }
-
-                    ol {
-                        list-style: none;
-                        padding: 0;
-                        margin: 0;
-                    }
-
-                    .seats {
-                        display: flex;
-                        flex-direction: row;
-                        flex-wrap: nowrap;
-                        justify-content: flex-start;
-                    }
-
-                    .seat {
-                        display: flex;
-                        flex: 0 0 14.3%;
-                        padding: 4px;
-                        position: relative;
-                    }
-
-                    .seat:nth-child(3) {
-                        /*
-                          margin-right: 14.285%;
-                          */
-                    }
-
-                    .seat input[type=checkbox] {
-                        position: absolute;
-                        opacity: 0;
-                    }
-
-                    .seat input[type=checkbox]:checked + label {
-                        background: yellow;
-                        /*border: 1px solid black;*/
-                        -webkit-box-shadow: inset 0px 0px 0px 1px #000;
-                        -moz-box-shadow: inset 0px 0px 0px 1px #000;
-                        box-shadow: inset 0px 0px 0px 1px #000;
-                    }
-
-                    .seat input[type=checkbox]:disabled + label {
-                        background: red;
-                        /*
-                      -webkit-box-shadow:inset 0px 0px 0px 1px #000;
-                      -moz-box-shadow:inset 0px 0px 0px 1px #000;
-                      box-shadow:inset 0px 0px 0px 1px #000;
-                        */
-                    }
-
-                    .seat input[type=checkbox]:disabled + label:after {
-                        text-indent: 0;
-                        position: absolute;
-                        top: 4px;
-                        left: 50%;
-                    }
-
-                    .seat input[type=checkbox]:disabled + label:hover {
-                        box-shadow: none;
-                        cursor: not-allowed;
-                    }
-
-                    input[type=submit] {
-                        margin-top: 20px;
-                        margin-bottom: 20px;
-                    }
-
-                    .seat label {
-                        display: block;
-                        position: relative;
-                        width: 100%;
-                        text-align: center;
-                        font-size: 14px;
-                        font-weight: bold;
-                        line-height: 1.5rem;
-                        padding: 4px 0;
-                        background: lightgreen;
-                        border-radius: 5px;
-                        animation-duration: 300ms;
-                        animation-fill-mode: both;
-                    }
-
-                    .seat label:hover {
-                        cursor: pointer;
-                        box-shadow: 0 0 0px 2px #7B2AFF;
-                    }
-
-                </style>
 
                 <!--Saalplanbuchung-->
                 <div id="item-1-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-2-tab">
@@ -439,84 +346,84 @@ if (isset($_GET['get_database_changes'])) {
 
     <script>
 
-        <?php
+            <?php
 
-        $allUnavailableSeatsX = array();
-        $allUnavailableSeatsY = array();
+            $allUnavailableSeatsX = array();
+            $allUnavailableSeatsY = array();
 
-        $unavailableSeatsIDs = DB::table('tickets')->where([
-            ['available', '=', false],
-            ['event_id', '=', $event->id],
-        ])->pluck('seat_id');
+            $unavailableSeatsIDs = DB::table('tickets')->where([
+                ['available', '=', false],
+                ['event_id', '=', $event->id],
+            ])->pluck('seat_id');
 
-        $unavailableSeatsIDsCount = DB::table('tickets')->where([
-            ['available', '=', false],
-            ['event_id', '=', $event->id],
-        ])->count();
+            $unavailableSeatsIDsCount = DB::table('tickets')->where([
+                ['available', '=', false],
+                ['event_id', '=', $event->id],
+            ])->count();
 
-        foreach ($departments as $department) {
+            foreach ($departments as $department) {
 
-            $thisDepartmentsUnavailableSeatsX = array();
-            $thisDepartmentsUnavailableSeatsY = array();
+                $thisDepartmentsUnavailableSeatsX = array();
+                $thisDepartmentsUnavailableSeatsY = array();
 
 
-            if ($unavailableSeatsIDsCount > 0) {
+                if ($unavailableSeatsIDsCount > 0) {
 
-                $i = 0;
+                    $i = 0;
 
-                foreach ($unavailableSeatsIDs as $seatID) {
+                    foreach ($unavailableSeatsIDs as $seatID) {
 
-                    $thisDepartmentsUnavailableSeatsX[$i] = DB::table('seats')->where([
-                        ['id', '=', $seatID],
-                        ['department_id', '=', $department->id],
-                    ])->value('seatX');
+                        $thisDepartmentsUnavailableSeatsX[$i] = DB::table('seats')->where([
+                            ['id', '=', $seatID],
+                            ['department_id', '=', $department->id],
+                        ])->value('seatX');
 
-                    $thisDepartmentsUnavailableSeatsY[$i] = DB::table('seats')->where([
-                        ['id', '=', $seatID],
-                        ['department_id', '=', $department->id],
-                    ])->value('seatY');
+                        $thisDepartmentsUnavailableSeatsY[$i] = DB::table('seats')->where([
+                            ['id', '=', $seatID],
+                            ['department_id', '=', $department->id],
+                        ])->value('seatY');
 
-                    $i++;
+                        $i++;
+                    }
                 }
+
+                $thisDepartmentsUnavailableSeatsX = json_encode($thisDepartmentsUnavailableSeatsX);
+                array_push($allUnavailableSeatsX, $thisDepartmentsUnavailableSeatsX);
+
+                $thisDepartmentsUnavailableSeatsY = json_encode($thisDepartmentsUnavailableSeatsY);
+                array_push($allUnavailableSeatsY, $thisDepartmentsUnavailableSeatsY);
             }
 
-            $thisDepartmentsUnavailableSeatsX = json_encode($thisDepartmentsUnavailableSeatsX);
-            array_push($allUnavailableSeatsX, $thisDepartmentsUnavailableSeatsX);
+            $allUnavailableSeatsX = json_encode($allUnavailableSeatsX);
+            echo "var allUnavailableSeatsX = " . $allUnavailableSeatsX . ";\n";
 
-            $thisDepartmentsUnavailableSeatsY = json_encode($thisDepartmentsUnavailableSeatsY);
-            array_push($allUnavailableSeatsY, $thisDepartmentsUnavailableSeatsY);
-        }
-
-        $allUnavailableSeatsX = json_encode($allUnavailableSeatsX);
-        echo "var allUnavailableSeatsX = " . $allUnavailableSeatsX . ";\n";
-
-        $allUnavailableSeatsY = json_encode($allUnavailableSeatsY);
-        echo "var allUnavailableSeatsY = " . $allUnavailableSeatsY . ";\n";
+            $allUnavailableSeatsY = json_encode($allUnavailableSeatsY);
+            echo "var allUnavailableSeatsY = " . $allUnavailableSeatsY . ";\n";
 
 
-        $departmentNrs = array();
-        $departmentRowCounts = array();
-        $departmentColumnCounts = array();
+            $departmentNrs = array();
+            $departmentRowCounts = array();
+            $departmentColumnCounts = array();
 
-        foreach ($departments as $department) {
+            foreach ($departments as $department) {
 
-            array_push($departmentNrs, $department->departmentNr);
-            array_push($departmentRowCounts, $department->rowCount);
-            array_push($departmentColumnCounts, $department->columnCount);
-        }
+                array_push($departmentNrs, $department->departmentNr);
+                array_push($departmentRowCounts, $department->rowCount);
+                array_push($departmentColumnCounts, $department->columnCount);
+            }
 
 
-        $departmentNrsJS = json_encode($departmentNrs);
-        $departmentRowCountsJS = json_encode($departmentRowCounts);
-        $departmentColumnCountsJS = json_encode($departmentColumnCounts);
+            $departmentNrsJS = json_encode($departmentNrs);
+            $departmentRowCountsJS = json_encode($departmentRowCounts);
+            $departmentColumnCountsJS = json_encode($departmentColumnCounts);
 
-        echo "var departmentNrs = " . $departmentNrsJS . ";\n";
-        echo "var departmentRowCounts = " . $departmentRowCountsJS . ";\n";
-        echo "var departmentColumnCounts = " . $departmentColumnCountsJS . ";\n";
+            echo "var departmentNrs = " . $departmentNrsJS . ";\n";
+            echo "var departmentRowCounts = " . $departmentRowCountsJS . ";\n";
+            echo "var departmentColumnCounts = " . $departmentColumnCountsJS . ";\n";
 
 
 
-        ?>
+            ?>
 
         var currentDepartment = 1;
 
@@ -660,7 +567,7 @@ if (isset($_GET['get_database_changes'])) {
             }
             return i;
         }
-        
+
         buildSeatTable(1);
 
     </script>

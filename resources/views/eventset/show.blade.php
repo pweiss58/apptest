@@ -3,9 +3,9 @@
 
 @section ('content')
 
-    <div class="jumbotron flex-row-reverse" style="background-image:url(&quot;/img/kaleo_gross.png&quot;);background-repeat:no-repeat;background-position:center;background-size:cover;">
+    <div class="jumbotron flex-row-reverse" style="background-image:url(&quot;{{ $eventset->bannerImage }}&quot;);background-repeat:no-repeat;background-position:center;background-size:cover;">
         <h1 style="color:#eaeaea;"> {{ $eventset->name }} </h1>
-        <p style="background-color:rgba(255,255,255,0);color:rgb(255,255,255);">{{ $eventset->description }}&nbsp;</p>
+        <p style="background-color:rgba(255,255,255,0);color:rgb(255,255,255);">{{ $eventset->longDescription }}&nbsp;</p>
         <p></p>
     </div>
     <div></div>

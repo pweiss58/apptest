@@ -11,11 +11,8 @@
 |
 */
 
-//Root
-Route::get('/', function () {
-    return view('index');
-
-})->name('welcome');
+//Root / Startseite
+Route::get('/', 'IndexController@index')->name('welcome');
 
 //Privacy
 Route::get('privacy', function(){
@@ -29,13 +26,12 @@ Route::get('contact', function(){
 
 })->name('contact');
 
-//Department
-Route::get('eventset/{eventset}/{event}/{department}', 'DepartmentController@show')->name('department');
-//Route::post('cart/{event}/{department}', 'DepartmentController@update');
-
 //Cart
 Route::get('cart', 'CartController@index')->name('cart');
 Route::post('cart', 'CartController@destroy');
+
+//Category
+Route::get('category/{categoryname}', 'CategoryController@show')->name('category');
 
 //Eventset
 Route::get('event/{eventsetname}', 'EventsetController@show')->name('eventset');
@@ -60,6 +56,7 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
 
 //Profile
 Route::get('profile', 'ProfileController@index')->name('profile');

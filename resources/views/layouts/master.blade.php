@@ -52,13 +52,19 @@
                 <ul class="nav navbar-nav ml-auto">
                     <li class="dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown"
                                             aria-expanded="false" href="#" style="color:rgba(0,0,0,0.5);">Events</a>
-                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation"
-                                                                  href="#"
-                                                                  style="color:rgba(0,0,0,0.5);">Rock</a><a
-                                    class="dropdown-item" role="presentation" href="#"
-                                    style="color:rgba(0,0,0,0.5);">Pop</a><a class="dropdown-item"
-                                                                             role="presentation" href="#"
-                                                                             style="color:rgba(0,0,0,0.5);">Klassik</a>
+                        <div class="dropdown-menu" role="menu">
+
+                            <?php
+
+                            $categories = DB::table('categories')->get();
+
+                            ?>
+
+                            @foreach($categories as $category)
+                                <a class="dropdown-item" role="presentation" href="/category/{{ $category->name }}"
+                                   style="color:rgba(0,0,0,0.5);">{{ $category->name }}</a>
+                            @endforeach
+
                         </div>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown"
