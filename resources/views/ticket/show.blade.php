@@ -230,7 +230,7 @@ if (isset($_GET['get_database_changes'])) {
                                 <tr>
                                     <th>Kategorie</th>
                                     <th>Beschreibung</th>
-                                    <th>Preis</th>
+                                    <th>Preis pro Ticket</th>
                                     <th>Anzahl</th>
                                     <th></th>
                                 </tr>
@@ -242,7 +242,7 @@ if (isset($_GET['get_database_changes'])) {
                                     <tr>
                                         <td style="padding-top:18px;">{{ $department->departmentNr }}</td>
                                         <td style="padding-top:18px;">{{ $department->description }}</td>
-                                        <td style="padding-top:18px;">00,00 EURO</td>
+                                        <td style="padding-top:18px;">{{ number_format($event->basePrice + $department->departmentPrice, 2, ",", ".") }} EURO</td>
                                         <td>
                                             <select name="seatsbp{{ $department->departmentNr }}"
                                                     style="margin-top:6px;">

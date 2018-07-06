@@ -13,7 +13,7 @@
                                 style="margin-right:0px;margin-left:34px;">Zur Kasse
                         </button>
                     </h5>
-                    <p class="text-secondary bg-light">{{ count($chosenTickets) }} Tickets, 0 EURO</p>
+                    <p class="text-secondary bg-light">{{ count($chosenTickets) }} Tickets, {{ number_format($totalPrice, 2, ",", ".") }} EURO</p>
                 </div>
             </div>
         </div>
@@ -37,6 +37,8 @@
                     $thisLocation = DB::table('locations')->where([
                         ['id', '=', $thisEvent->location_id],
                     ])->first();
+
+                    $subTotalPrice = 0;
 
                     ?>
 
@@ -77,6 +79,8 @@
                                                 ['id', '=', $thisSeat->department_id],
                                             ])->first();
 
+                                            $subTotalPrice += $ticket->price;
+
                                             ?>
                                             <tr>
                                                 <td>
@@ -84,7 +88,7 @@
                                                     ,
                                                     Normalpreis, Parkett {{ $thisDepartment->departmentNr }},
                                                     Reihe {{ $thisSeat->seatX }}, Platz {{ $thisSeat->seatY }}</td>
-                                                <td>Preis</td>
+                                                <td>{{ number_format($ticket->price, 2, ",", ".") }} EURO</td>
                                             </tr>
 
                                         @endif
@@ -96,7 +100,7 @@
                             </div>
 
                             <p class="d-inline-flex align-self-end"
-                               style="margin-left:0px;color:#6c757d;margin-right:33px;">Zwischensumme: 00 EURO</p>
+                               style="margin-left:0px;color:#6c757d;margin-right:33px;">Zwischensumme: {{ number_format($subTotalPrice, 2, ",", ".") }} EURO</p>
                         </div>
 
 
@@ -108,7 +112,7 @@
                                                 style="text-decoration: underline;">Bestellübersicht</span>
                                     </p>
                                     <p style="color:#444f51;">Anzahl Tickets gesamt: {{ count($chosenTickets) }}</p>
-                                    <p style="color:#444f51;">Summe gesamt:</p>
+                                    <p style="color:#444f51;">Summe gesamt: {{ number_format($totalPrice, 2, ",", ".") }} EURO</p>
                                 </div>
                             @endif
                         </div>

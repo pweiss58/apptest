@@ -11,9 +11,6 @@ class DepartmentsTableSeeder extends Seeder
      */
     public function run()
     {
-        /*factory(App\Department::class, 16)->create()->each(function($u){
-            $u->location()->associate(App\Location::find(random_int(1,16)))->save();
-        });*/
 
         $availableDescriptions = array("Sitzplatz", "Stehplatz");
 
@@ -21,11 +18,14 @@ class DepartmentsTableSeeder extends Seeder
 
             for ($i = 1; $i <= (\App\Location::all()->where('id', T_IS_EQUAL, $locationID )->first()->departmentCount); $i++){
 
+                $departmentPrice = (rand(500, 3000) / 100);
+
                 DB::table('departments')->insert(array(
                     'rowCount' => random_int(5, 10),
                     'columnCount' => random_int(7, 10),
                     'departmentNr' => $i,
                     'description' => $availableDescriptions[array_rand($availableDescriptions, 1)],
+                    'departmentPrice' => $departmentPrice,
                     'location_id' => $locationID,
                 ));
             }

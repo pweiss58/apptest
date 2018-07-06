@@ -18,9 +18,8 @@ class CreateEventsTable extends Migration
             $table->timestamps();
             $table->dateTime('startDate');
             $table->dateTime( 'endDate');
-            /*$table->integer('countAvailable');
-            $table->integer('countReserved');*/
             $table->integer('eventNr');
+            $table->float('basePrice');
 
             $table->integer('eventset_id')->unsigned()->nullable();
             $table->foreign('eventset_id')->references('id')->on('eventsets')->onDelete('cascade');

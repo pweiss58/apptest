@@ -26,13 +26,28 @@
                 <?php $thisLocation = DB::table('locations')->where([
                     ['id', '=', $event->location_id],
                 ])->first();
+
+                $thisDepartments = DB::table('departments')->where([
+                    ['location_id', '=', $thisLocation->id],
+                ])->get();
+
+                $departmentPrices = array();
+
+                foreach($thisDepartments as $department){
+
+                    array_push($departmentPrices, $department->departmentPrice);
+
+                }
+
+                $lowestPrice = min($departmentPrices) + $event->basePrice;
+
                 ?>
 
             <tr>
                 <td><a href="{{$eventset->name}}/{{$event->eventNr}}/tickets" style="color:#444f51;"> {{ $eventset->name }} </a></td>
                 <td>{{ $thisLocation->city }}, {{ $thisLocation->hallenName }}</td>
                 <td>{{ date("d.m.Y H:i", strtotime($event->startDate)) }} Uhr</td>
-                <td><a href="{{$eventset->name}}/{{$event->eventNr}}/tickets" style="color:#444f51;">Tickets ab 39,65 Euro</a></td>
+                <td><a href="{{$eventset->name}}/{{$event->eventNr}}/tickets" style="color:#444f51;">Tickets ab {{ number_format($lowestPrice, 2, ",", ".") }} Euro</a></td>
             </tr>
 
             @endforeach

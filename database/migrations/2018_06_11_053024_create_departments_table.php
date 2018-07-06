@@ -20,6 +20,7 @@ class CreateDepartmentsTable extends Migration
             $table->integer('columnCount');
             $table->integer('departmentNr');
             $table->string('description');
+            $table->float('departmentPrice');
 
             $table->integer('location_id')->unsigned()->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');

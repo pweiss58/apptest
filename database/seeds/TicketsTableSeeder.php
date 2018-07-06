@@ -33,28 +33,14 @@ class TicketsTableSeeder extends Seeder
                             ['seatY', '=', $j],
                         ])->first();
 
-
-                        if($j == 1){
-                            DB::table('tickets')->insert(array(
-                                'priceCategory' => random_int(1, 10),
-                                'description' => str_random(30),
-                                'available' => true,
-                                'paid' => false,
-                                'event_id' => $eventID,
-                                'seat_id' => $thisSeat->id,
-                            ));
-                        }
-
-                        else {
-                            DB::table('tickets')->insert(array(
-                                'priceCategory' => random_int(1, 10),
-                                'description' => str_random(30),
-                                'available' => true,
-                                'paid' => false,
-                                'event_id' => $eventID,
-                                'seat_id' => $thisSeat->id,
-                            ));
-                        }
+                        DB::table('tickets')->insert(array(
+                            'price' => $thisEvent->basePrice + $thisDepartment->departmentPrice,
+                            'description' => str_random(30),
+                            'available' => true,
+                            'paid' => false,
+                            'event_id' => $eventID,
+                            'seat_id' => $thisSeat->id,
+                        ));
                     }
                 }
             }

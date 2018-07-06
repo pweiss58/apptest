@@ -17,56 +17,35 @@ class CartController extends Controller
      */
     public function index()
     {
-        /*if (Auth::check()) {
 
-            $user = Auth::user();
-            $userID = Auth::id();
+        $chosenTickets = Cookie::get('chosenTickets');
+        $reservationDate = null;
+        $chosenTicketIDs = array();
+        $totalPrice = 0;
+        $eventIDS = null;
 
-            $chosenTickets = DB::table('tickets')->where([
-                ['user_id', '=', $userID],
-                ['paid', '=', false],
-            ])->get();
+        if ($chosenTickets != null) {
 
-            $chosenTicketsCount = DB::table('tickets')->where([
-                ['user_id', '=', $userID],
-                ['paid', '=', false],
-            ])->count();
+            $reservationDate = DB::table('tickets')->where([
+                ['id', '=', $chosenTickets[0]->id],
+            ])->value('reservationDate');
 
-            $reservationDate = null;
+            $chosenTickets = collect($chosenTickets);
 
-            if ($chosenTicketsCount > 0) {
-                $reservationDate = $chosenTickets[0]->reservationDate;
+            foreach ($chosenTickets as $ticket) {
+
+                array_push($chosenTicketIDs, $ticket->id);
+
+                $totalPrice += $ticket->price;
             }
 
-            return view('cart.index', array('user' => $user, 'chosenTickets' => $chosenTickets, 'reservationDate' => $reservationDate));
-        }
+            $eventIDS = DB::table('tickets')->whereIn('id', $chosenTicketIDs)->pluck('event_id')->unique();
 
-        else {*/
+        } else $chosenTickets = collect($chosenTickets);
 
-            $chosenTickets = Cookie::get('chosenTickets');
-            $reservationDate = null;
-            $chosenTicketIDs = array();
-            $eventsIDs = null;
 
-            if ($chosenTickets != null) {
 
-                $reservationDate = DB::table('tickets')->where([
-                    ['id', '=', $chosenTickets[0]->id],
-                ])->value('reservationDate');
-
-                $chosenTickets = collect($chosenTickets);
-
-                foreach($chosenTickets as $ticket){
-
-                    array_push($chosenTicketIDs, $ticket->id);
-                }
-
-                $eventsIDs = DB::table('tickets')->whereIn('id', $chosenTicketIDs)->pluck('event_id')->unique();
-            }
-            else $chosenTickets = collect($chosenTickets);
-
-            return view('cart.index', array('chosenTickets' => $chosenTickets, 'chosenTicketIDs' => $chosenTicketIDs, 'eventIDs' => $eventsIDs, 'reservationDate' => $reservationDate));
-        //}
+        return view('cart.index', array('chosenTickets' => $chosenTickets, 'chosenTicketIDs' => $chosenTicketIDs, 'eventIDs' => $eventIDS, 'reservationDate' => $reservationDate, 'totalPrice' => $totalPrice));
 
     }
 
@@ -83,7 +62,7 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -94,7 +73,7 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -105,7 +84,7 @@ class CartController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -116,8 +95,8 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -128,7 +107,7 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy()
@@ -140,7 +119,7 @@ class CartController extends Controller
 
         $chosenTicketIDsArr = explode(",", $chosenTicketIDs);
 
-        for ($i = 0; $i < count($chosenTicketIDsArr); $i++){
+        for ($i = 0; $i < count($chosenTicketIDsArr); $i++) {
 
             DB::table('tickets')->where([
                 ['id', '=', $chosenTicketIDsArr[$i]]

@@ -16,7 +16,7 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('priceCategory');
+            $table->float('price');
             $table->text('description');
             $table->boolean('available');
             $table->dateTime('reservationDate')->nullable();
