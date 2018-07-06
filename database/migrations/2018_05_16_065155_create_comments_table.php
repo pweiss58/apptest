@@ -17,6 +17,8 @@ class CreateCommentsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->text('text');
+            $table->string('authorName');
+            $table->string('authorEmail');
 
             $table->integer('eventset_id')->unsigned()->nullable();
             $table->foreign('eventset_id')->references('id')->on('eventsets')->onDelete('cascade');

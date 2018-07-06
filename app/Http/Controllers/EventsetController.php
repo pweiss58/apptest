@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EventsetController extends Controller
 {
@@ -49,12 +50,16 @@ class EventsetController extends Controller
         $eventset = DB::table('eventsets')->where([
             ['name', '=', $eventsetName],
         ])->first();
+
         $events = DB::table('events')->where([
             ['eventset_id', '=', $eventset->id],
         ])->get();
 
+        $comments = DB::table('comments')->where([
+            ['eventset_id', '=', $eventset->id]
+        ])->get();
 
-        return view('eventset.show', array('eventset' => $eventset, 'events' => $events));
+        return view('eventset.show', array('eventset' => $eventset, 'events' => $events, 'comments' => $comments));
     }
 
     /**
@@ -75,9 +80,28 @@ class EventsetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $eventsetName)
     {
-        //
+
+        $authorName = $request->input('authorName');
+        $authorEmail = $request->input('authorEmail');
+        $text = $request->input('text');
+
+        $thisEventsetID = DB::table('eventsets')->where([
+            ['name', '=', $eventsetName],
+        ])->value('id');
+
+        $request->validate([
+            'authorName' => 'required|string|min:6|max:255',
+            'authorEmail' => 'required|email|min:2|max:255',
+            'text' => 'required',
+        ]);
+
+        DB::table('comments')->insert(
+            ['authorName' => $authorName, 'authorEmail' => $authorEmail, 'text' => $text, 'eventset_id' => $thisEventsetID]
+        );
+
+        return redirect()->action('EventsetController@show', array('eventsetName' => $eventsetName));
     }
 
     /**

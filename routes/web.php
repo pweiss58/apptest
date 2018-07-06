@@ -11,33 +11,37 @@
 |
 */
 
-//Root / Startseite
+//Root / Startseite View aufrufen
 Route::get('/', 'IndexController@index')->name('welcome');
 
-//Privacy
+//Privacy View aufrufen
 Route::get('privacy', function(){
     return view('privacy');
 
 })->name('privacy');
 
-//Contact
+//Contact View aufrufen
 Route::get('contact', function(){
     return view('contact');
 
 })->name('contact');
 
-//Cart
+//Cart View aufrufen
 Route::get('cart', 'CartController@index')->name('cart');
+//Tickets im Cart laufen ab
 Route::post('cart', 'CartController@destroy');
 
-//Category
+//Category View aufrufen
 Route::get('category/{categoryname}', 'CategoryController@show')->name('category');
 
-//Eventset
+//Eventset View aufrufen
 Route::get('event/{eventsetname}', 'EventsetController@show')->name('eventset');
+//Kundenbewertung abgeben
+Route::post('event/{eventsetname}', 'EventsetController@update');
 
-//Tickets bzw. Event
+//Tickets bzw. Event View aufrufen
 Route::get('event/{eventsetname}/{eventnr}/tickets', 'TicketController@show')->name('tickets');
+//Tickets werden in Warenkorb gelegt
 Route::post('cart/{event}', 'TicketController@update');
 
 
@@ -58,8 +62,9 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
-//Profile
+//Profile View aufrufen
 Route::get('profile', 'ProfileController@index')->name('profile');
+//Profil bearbeiten
 Route::get('editprofile', 'ProfileController@edit');
 Route::post('profile', 'ProfileController@update')->name('profile');
 
