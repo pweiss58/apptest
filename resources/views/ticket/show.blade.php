@@ -115,6 +115,7 @@ if (isset($_GET['get_database_changes'])) {
             margin: 0;
         }
 
+
         .seats {
             display: flex;
             flex-direction: row;
@@ -124,39 +125,36 @@ if (isset($_GET['get_database_changes'])) {
 
         .seat {
             display: flex;
-            flex: 0 0 14.3%;
             padding: 4px;
+            margin-left: 7px;
+            margin-right: 7px;
             position: relative;
         }
 
-        .seat:nth-child(3) {
-            /*
-              margin-right: 14.285%;
-              */
-        }
 
         .seat input[type=checkbox] {
             position: absolute;
             opacity: 0;
+            -webkit-box-shadow: inset 0px 0px 0px 1px rgb(0, 123, 255);
+            -moz-box-shadow: inset 0px 0px 0px 1px rgb(0, 123, 255);
+            box-shadow: inset 0px 0px 0px 1px rgb(0, 123, 255);
         }
 
         .seat input[type=checkbox]:checked + label {
-            /*background: yellow;*/
             background: rgb(0, 123, 255);
             color: white;
-            /*border: 1px solid black;*/
-            -webkit-box-shadow: inset 0px 0px 0px 1px #000;
-            -moz-box-shadow: inset 0px 0px 0px 1px #000;
-            box-shadow: inset 0px 0px 0px 1px #000;
+            -webkit-box-shadow: inset 0px 0px 0px 1px white;
+            -moz-box-shadow: inset 0px 0px 0px 1px white;
+            box-shadow: inset 0px 0px 0px 1px white;
+            border-radius: 5px;
+            border: 2px solid rgb(0, 123, 255);
         }
 
         .seat input[type=checkbox]:disabled + label {
-            background: red;
-            /*
-          -webkit-box-shadow:inset 0px 0px 0px 1px #000;
-          -moz-box-shadow:inset 0px 0px 0px 1px #000;
-          box-shadow:inset 0px 0px 0px 1px #000;
-            */
+            background: firebrick;
+            color: white;
+            border-radius: 5px;
+            border: 2px solid firebrick;
         }
 
         .seat input[type=checkbox]:disabled + label:after {
@@ -179,21 +177,23 @@ if (isset($_GET['get_database_changes'])) {
         .seat label {
             display: block;
             position: relative;
-            width: 100%;
+            width: 40px;
             text-align: center;
             font-size: 14px;
             font-weight: bold;
             line-height: 1.5rem;
             padding: 4px 0;
-            background: lightgreen;
+            background: white;
+            color: rgb(0, 123, 255);
             border-radius: 5px;
+            border: 2px solid rgb(0, 123, 255);
             animation-duration: 300ms;
             animation-fill-mode: both;
         }
 
         .seat label:hover {
             cursor: pointer;
-            box-shadow: 0 0 0 2px #7B2AFF;
+            box-shadow: 0 0 0 2px rgb(0, 123, 255);
         }
 
     </style>
@@ -271,6 +271,15 @@ if (isset($_GET['get_database_changes'])) {
 
                                     </tbody>
                                 </table>
+                                @if (count($errors) > 0)
+                                    <div class="alert alert-danger">
+
+                                        @foreach ($errors->all() as $error)
+                                            {{ $error }}
+                                        @endforeach
+
+                                    </div>
+                                @endif
                             </form>
                         </div>
                     </div>
@@ -327,7 +336,7 @@ if (isset($_GET['get_database_changes'])) {
                                                     </div>
 
                                                     @if (count($errors) > 0)
-                                                        <div class="alert alert-danger">
+                                                        <div class="alert alert-danger" style="min-width: 300px;">
 
                                                             @foreach ($errors->all() as $error)
                                                                 {{ $error }}
@@ -536,9 +545,9 @@ if (isset($_GET['get_database_changes'])) {
                             var x = i + 1;
                             var y = j + 1;
 
-                            if (allUnavailableSeatsX.length > 0) {
+                            if (allUnavailableSeatsX[h].length > 0) {
 
-                                for (var k = 0; k < allUnavailableSeatsX.length; k++) {
+                                for (var k = 0; k < allUnavailableSeatsX[h].length; k++) {
 
                                     if (allUnavailableSeatsX[h][k] == x && allUnavailableSeatsY[h][k] == y) {
 
