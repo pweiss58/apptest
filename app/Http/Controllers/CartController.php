@@ -44,8 +44,81 @@ class CartController extends Controller
         } else $chosenTickets = collect($chosenTickets);
 
 
-
         return view('cart.index', array('chosenTickets' => $chosenTickets, 'chosenTicketIDs' => $chosenTicketIDs, 'eventIDs' => $eventIDS, 'reservationDate' => $reservationDate, 'totalPrice' => $totalPrice));
+
+    }
+
+    public function checkout(Request $request)
+    {
+
+        if (Auth::check()) {
+
+            $chosenTickets = Cookie::get('chosenTickets');
+
+            if ($chosenTickets != null) {
+
+                $userID = Auth::id();
+                $chosenTickets = collect($chosenTickets);
+
+                foreach ($chosenTickets as $ticket) {
+
+                    DB::table('tickets')->where([
+                        ['id', '=', $ticket->id],
+                    ])->update([
+                        'user_id' => $userID,
+                        'available' => false
+                    ]);
+
+                }
+
+                return view('cart.checkout', array('chosenTickets' => $chosenTickets));
+
+            }
+
+            return redirect()->action('CartController@index');
+
+        } else {
+
+            return redirect()->guest('login');
+
+        }
+
+    }
+
+    public function completeCheckout(Request $request)
+    {
+
+        $userID = Auth::id();
+        $currTime = new \DateTime(null, new \DateTimeZone('Europe/Berlin'));
+
+        $orderNr = 0;
+        while ($orderNr == 0 || (DB::table('users')->where('customer_id','=',$orderNr)->first() != null)) {
+            $orderNr = random_int(000300000,999999999);
+        }
+
+        $chosenTickets = DB::table('tickets')->where([
+            ['user_id', '=', $userID],
+            ['paid', '=', false],
+        ])->get();
+
+        foreach ($chosenTickets as $ticket) {
+
+            DB::table('tickets')->where([
+                ['id', '=', $ticket->id],
+            ])->update([
+                'orderNr' => $orderNr,
+                'paid' => true,
+                'available' => false,
+                'paymentDate' => $currTime,
+                'reservationDate' => null,
+                'user_id' => $userID,
+            ]);
+
+        }
+
+        \Cookie::queue(\Cookie::forget('chosenTickets'));
+
+        return view('cart.checkoutDone', array('orderNr' => $orderNr));
 
     }
 

@@ -26,10 +26,21 @@ Route::get('contact', function(){
 
 })->name('contact');
 
+
+Route::get('checkout', function(){
+    return view('cart.checkout');
+});
+
+
 //Cart View aufrufen
 Route::get('cart', 'CartController@index')->name('cart');
 //Tickets im Cart laufen ab
 Route::post('cart', 'CartController@destroy');
+//Checkout
+Route::get('checkout', 'CartController@index');
+Route::post('checkout', 'CartController@checkout');
+//Route::get('checkoutComplete', 'CartController@index');
+Route::post('checkoutComplete', 'CartController@completeCheckout');
 
 //Category View aufrufen
 Route::get('category/{categoryname}', 'CategoryController@show')->name('category');

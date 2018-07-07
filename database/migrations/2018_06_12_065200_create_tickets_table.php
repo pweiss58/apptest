@@ -22,6 +22,7 @@ class CreateTicketsTable extends Migration
             $table->dateTime('reservationDate')->nullable();
             $table->boolean('paid');
             $table->dateTime('paymentDate')->nullable();
+            $table->integer('orderNr')->nullable();
 
             $table->integer('event_id')->unsigned()->nullable();
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
