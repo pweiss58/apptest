@@ -545,7 +545,7 @@ if (isset($_GET['get_database_changes'])) {
                             var x = i + 1;
                             var y = j + 1;
 
-                            if (allUnavailableSeatsX[h].length > 0) {
+                            if (allUnavailableSeatsX[h] != null) {
 
                                 for (var k = 0; k < allUnavailableSeatsX[h].length; k++) {
 

@@ -19,9 +19,9 @@ class CreateEventsetsTable extends Migration
             $table->string('name');
             $table->text('shortDescription');
             $table->text('longDescription');
-            $table->string('teaserImage');
-            $table->string('bannerImage');
-            $table->integer('eventCount');
+            $table->string('teaserImage')->nullable();
+            $table->string('bannerImage')->nullable();
+            $table->integer('eventCount')->nullable();
 
             $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
