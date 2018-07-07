@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Eventset extends Model
 {
+    protected $fillable = ['name', 'shortDescription', 'longDescription', 'teaserImage','bannerImage'];
+
     public function event(){
         return $this->hasMany('App\Event');
     }
