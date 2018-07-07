@@ -1,5 +1,5 @@
 <?php
-
+use App\Eventset;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -66,7 +66,40 @@ Route::post('profile', 'ProfileController@update')->name('profile');
 //Email verification
 Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 
-//Admin-access
+//Admin-access (Eventset- & Event-administration)
 Route::get('/admin', 'AdminController@admin')->middleware('is_admin')->name('admin');
+Route::post('eventset/delete/{id}', 'EventsetController@destroy');
+Route::post('/admin/update/eventsets', 'AdminController@updEventsets');
 
+
+/*
+Route::get('/eventsets/{id}',function($id){$eventset = Eventset::find($id);
+    $eventset = Eventset::find($id);
+
+    return Response::json($eventset);
+});
+
+Route::post('/tasks',function(Request $request){
+    $eventset = Eventset::create($request->all());
+
+    return Response::json($eventset);
+});
+
+Route::put('/eventsets/{id?}',function(Request $request,$id){
+    $eventset = Eventset::find($id);
+
+    $eventset->name = $request->eventset;
+    $eventset->shortDescription = $request->shortDescription;
+
+    $eventset->save();
+
+    return Response::json($eventset);
+});
+
+Route::delete('/eventsets/{id?}',function($id){
+    $eventset = Eventset::destroy($id);
+
+    return Response::json($eventset);
+});
+*/
 
