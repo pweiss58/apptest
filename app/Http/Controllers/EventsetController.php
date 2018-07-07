@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class EventsetController extends Controller
 {
@@ -88,6 +90,24 @@ class EventsetController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $user = User::find($userId);
+
+            if (isset($_POST[$id])) {
+                DB::table('eventsets')->where('id','=',$id+2)->delete();
+            }
+
+            if($user->admin == 1) {
+                DB::table('eventsets')->where('id','=',$id)->delete();
+            }
+
+            //test
+            if (Auth::user()->isAdmin()) {
+                DB::table('eventsets')->where('id','=',$id+1)->delete();
+            }
+
+            return view('AdminController@admin');
+        }
     }
 }
