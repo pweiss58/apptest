@@ -7,6 +7,7 @@ use App\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class TicketController extends Controller
@@ -129,14 +130,20 @@ class TicketController extends Controller
                                 ['available', '=', true],
                             ])->whereIn('seat_id', $thisDepartmentsSeatIDs)->first();
 
-                            array_push($chosenTickets, $thisTicket);
+                            if($thisTicket == null){
+                                return Redirect::back()->withErrors(['Die Anzahl an ausgewählten Sitzplätzen ist leider nicht mehr verfügbar.']);
+                            }
+                            else {
 
-                            DB::table('tickets')->where([
-                                ['id', '=', $thisTicket->id],
-                            ])->update([
-                                'available' => false,
-                                'reservationDate' => $currTime,
-                            ]);
+                                array_push($chosenTickets, $thisTicket);
+
+                                DB::table('tickets')->where([
+                                    ['id', '=', $thisTicket->id],
+                                ])->update([
+                                    'available' => false,
+                                    'reservationDate' => $currTime,
+                                ]);
+                            }
                         }
 
                         if ($chosenTicketsOld != null) {
@@ -150,7 +157,7 @@ class TicketController extends Controller
                     }
                     else return back();
                 }
-                else {                               //Sitzplatzauswahl
+                else if (isset($_POST[$seatChooserString])) {                                      //Sitzplatzauswahl
 
                     $alphabet = range('A', 'Z');
                     //$chosenSeats = $request->input('');
@@ -189,13 +196,22 @@ class TicketController extends Controller
                             ['department_id', '=', $thisDepartmentID],
                         ])->value('id');
 
-                        DB::update('update tickets set available = false where seat_id = ? and event_id = ?', [$seatID, $eventID]);
-                        DB::update('update tickets set reservationDate = ? where seat_id = ? and event_id = ?', [$currTime, $seatID, $eventID]);
-
                         $thisTicket = DB::table('tickets')->where([
                             ['event_id', '=', $eventID],
                             ['seat_id', '=', $seatID],
                         ])->first();
+
+                        if($thisTicket->available) {
+
+                            DB::table('tickets')->where([
+                                ['event_id', '=', $eventID],
+                                ['seat_id', '=', $seatID],
+                            ])->update([
+                                'available' => false,
+                                'reservationDate' => $currTime,
+                            ]);
+                        }
+                        else return Redirect::back()->withErrors(['Einer oder mehrere der ausgewählten Tickets sind leider nicht mehr verfügbar.']);
 
                         array_push($chosenTickets, $thisTicket);
                     }
@@ -211,8 +227,6 @@ class TicketController extends Controller
                 }
             }
         }
-
-
 
        return back();
     }

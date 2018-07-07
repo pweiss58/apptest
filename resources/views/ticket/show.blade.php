@@ -115,6 +115,7 @@ if (isset($_GET['get_database_changes'])) {
             margin: 0;
         }
 
+
         .seats {
             display: flex;
             flex-direction: row;
@@ -124,39 +125,36 @@ if (isset($_GET['get_database_changes'])) {
 
         .seat {
             display: flex;
-            flex: 0 0 14.3%;
             padding: 4px;
+            margin-left: 7px;
+            margin-right: 7px;
             position: relative;
         }
 
-        .seat:nth-child(3) {
-            /*
-              margin-right: 14.285%;
-              */
-        }
 
         .seat input[type=checkbox] {
             position: absolute;
             opacity: 0;
+            -webkit-box-shadow: inset 0px 0px 0px 1px rgb(0, 123, 255);
+            -moz-box-shadow: inset 0px 0px 0px 1px rgb(0, 123, 255);
+            box-shadow: inset 0px 0px 0px 1px rgb(0, 123, 255);
         }
 
         .seat input[type=checkbox]:checked + label {
-            /*background: yellow;*/
             background: rgb(0, 123, 255);
             color: white;
-            /*border: 1px solid black;*/
-            -webkit-box-shadow: inset 0px 0px 0px 1px #000;
-            -moz-box-shadow: inset 0px 0px 0px 1px #000;
-            box-shadow: inset 0px 0px 0px 1px #000;
+            -webkit-box-shadow: inset 0px 0px 0px 1px white;
+            -moz-box-shadow: inset 0px 0px 0px 1px white;
+            box-shadow: inset 0px 0px 0px 1px white;
+            border-radius: 5px;
+            border: 2px solid rgb(0, 123, 255);
         }
 
         .seat input[type=checkbox]:disabled + label {
-            background: red;
-            /*
-          -webkit-box-shadow:inset 0px 0px 0px 1px #000;
-          -moz-box-shadow:inset 0px 0px 0px 1px #000;
-          box-shadow:inset 0px 0px 0px 1px #000;
-            */
+            background: firebrick;
+            color: white;
+            border-radius: 5px;
+            border: 2px solid firebrick;
         }
 
         .seat input[type=checkbox]:disabled + label:after {
@@ -179,21 +177,23 @@ if (isset($_GET['get_database_changes'])) {
         .seat label {
             display: block;
             position: relative;
-            width: 100%;
+            width: 40px;
             text-align: center;
             font-size: 14px;
             font-weight: bold;
             line-height: 1.5rem;
             padding: 4px 0;
-            background: lightgreen;
+            background: white;
+            color: rgb(0, 123, 255);
             border-radius: 5px;
+            border: 2px solid rgb(0, 123, 255);
             animation-duration: 300ms;
             animation-fill-mode: both;
         }
 
         .seat label:hover {
             cursor: pointer;
-            box-shadow: 0 0 0 2px #7B2AFF;
+            box-shadow: 0 0 0 2px rgb(0, 123, 255);
         }
 
     </style>
@@ -203,137 +203,153 @@ if (isset($_GET['get_database_changes'])) {
          style="background-image:url(&quot;/img/tickets.png&quot;);background-repeat:no-repeat;background-position:center;background-size:cover;">
         <h1 style="color:#eaeaea;">Tickets</h1>
     </div>
-    <div class="card">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs" role="tablist">
-                <li class="nav-item"><a class="nav-link active" href="#item-1-1" id="item-1-1-tab" data-toggle="tab"
-                                        role="tab" aria-controls="item-1-1" aria-selected="true">Bestplatzbuchung</a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="#item-1-2" id="item-1-2-tab" data-toggle="tab" role="tab"
-                                        aria-controls="item-1-2" aria-selected="false">Saalplanbuchung</a></li>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" href="#item-1-1" id="item-1-1-tab" data-toggle="tab"
+                                            role="tab" aria-controls="item-1-1"
+                                            aria-selected="true">Bestplatzbuchung</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#item-1-2" id="item-1-2-tab" data-toggle="tab"
+                                            role="tab"
+                                            aria-controls="item-1-2" aria-selected="false">Saalplanbuchung</a></li>
 
 
-            </ul>
-        </div>
-        <div class="card-body" style="margin-top:0px;">
-            <div id="nav-tabContent" class="tab-content">
+                </ul>
+            </div>
+            <div class="card-body" style="margin-top:0px;">
+                <div id="nav-tabContent" class="tab-content">
 
-                <!--Bestplatzbuchung-->
-                <div id="item-1-1" class="tab-pane fade show active" role="tabpanel" aria-labelledby="item-1-1-tab">
-                    <div class="table-responsive" style="color:#444f51;">
+                    <!--Bestplatzbuchung-->
+                    <div id="item-1-1" class="tab-pane fade show active" role="tabpanel" aria-labelledby="item-1-1-tab">
+                        <div class="table-responsive" style="color:#444f51;">
 
-                        <form method="POST" action="/cart/{{ $event->id }}">
-                            {{ csrf_field() }}
+                            <form method="POST" action="/cart/{{ $event->id }}">
+                                {{ csrf_field() }}
 
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Kategorie</th>
-                                    <th>Beschreibung</th>
-                                    <th>Preis pro Ticket</th>
-                                    <th>Anzahl</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                @foreach($departments as $department)
-
+                                <table class="table table-hover">
+                                    <thead>
                                     <tr>
-                                        <td style="padding-top:18px;">{{ $department->departmentNr }}</td>
-                                        <td style="padding-top:18px;">{{ $department->description }}</td>
-                                        <td style="padding-top:18px;">{{ number_format($event->basePrice + $department->departmentPrice, 2, ",", ".") }} EURO</td>
-                                        <td>
-                                            <select name="seatsbp{{ $department->departmentNr }}"
-                                                    style="margin-top:6px;">
-                                                <option value="0" selected>0</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button name="{{ $department->departmentNr }}" class="btn btn-primary"
-                                                    type="submit">In den Warenkorb
-                                            </button>
-                                        </td>
+                                        <th>Kategorie</th>
+                                        <th>Beschreibung</th>
+                                        <th>Preis pro Ticket</th>
+                                        <th>Anzahl</th>
+                                        <th></th>
                                     </tr>
+                                    </thead>
+                                    <tbody>
 
-                                @endforeach
+                                    @foreach($departments as $department)
 
-                                </tbody>
-                            </table>
-                        </form>
+                                        <tr>
+                                            <td style="padding-top:18px;">{{ $department->departmentNr }}</td>
+                                            <td style="padding-top:18px;">{{ $department->description }}</td>
+                                            <td style="padding-top:18px;">{{ number_format($event->basePrice + $department->departmentPrice, 2, ",", ".") }}
+                                                EURO
+                                            </td>
+                                            <td>
+                                                <select name="seatsbp{{ $department->departmentNr }}"
+                                                        style="margin-top:6px;">
+                                                    <option value="0" selected>0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button name="{{ $department->departmentNr }}" class="btn btn-primary"
+                                                        type="submit">In den Warenkorb
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                    @endforeach
+
+                                    </tbody>
+                                </table>
+                                @if (count($errors) > 0)
+                                    <div class="alert alert-danger">
+
+                                        @foreach ($errors->all() as $error)
+                                            {{ $error }}
+                                        @endforeach
+
+                                    </div>
+                                @endif
+                            </form>
+                        </div>
                     </div>
-                </div>
 
-                <!--Saalplanbuchung-->
-                <div id="item-1-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-2-tab">
-                    <div class="table-responsive" style="color:#444f51;">
+                    <!--Saalplanbuchung-->
+                    <div id="item-1-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-2-tab">
+                        <div class="table-responsive" style="color:#444f51;">
 
-                        <div class="card">
-                            <div class="card-header">
-                                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <div class="card">
+                                <div class="card-header">
+                                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
 
-                                    @foreach($departments as $department)
-                                        <li class="nav-item"><a class="nav-link @if($loop->index ==0) active @endif"
-                                                                href="#item-2-{{ $department->departmentNr}}"
-                                                                id="item-2-{{ $department->departmentNr}}-tab"
-                                                                data-toggle="tab"
-                                                                role="tab"
-                                                                onclick="buildSeatTable({{ $department->departmentNr }})"
-                                                                aria-controls="item-2-{{ $department->departmentNr}}"
-                                                                aria-selected="@if($loop->index == 0) true @else false @endif">Kategorie {{ $department->departmentNr}}</a>
-                                        </li>
-                                    @endforeach
+                                        @foreach($departments as $department)
+                                            <li class="nav-item"><a class="nav-link @if($loop->index ==0) active @endif"
+                                                                    href="#item-2-{{ $department->departmentNr}}"
+                                                                    id="item-2-{{ $department->departmentNr}}-tab"
+                                                                    data-toggle="tab"
+                                                                    role="tab"
+                                                                    onclick="buildSeatTable({{ $department->departmentNr }})"
+                                                                    aria-controls="item-2-{{ $department->departmentNr}}"
+                                                                    aria-selected="@if($loop->index == 0) true @else false @endif">Kategorie {{ $department->departmentNr}}</a>
+                                            </li>
+                                        @endforeach
 
-                                </ul>
-                            </div>
-                            <div class="card-body" style="margin-top:0px;">
-                                <div id="nav-tabContent" class="tab-content">
+                                    </ul>
+                                </div>
+                                <div class="card-body" style="margin-top:0px;">
+                                    <div id="nav-tabContent" class="tab-content">
 
-                                    @foreach($departments as $department)
+                                        @foreach($departments as $department)
 
-                                        <div id="item-2-{{ $department->departmentNr}}"
-                                             class="tab-pane fade @if($loop->index == 0) show active @endif"
-                                             role="tabpanel"
-                                             aria-labelledby="item-2-{{ $department->departmentNr}}-tab">
+                                            <div id="item-2-{{ $department->departmentNr}}"
+                                                 class="tab-pane fade @if($loop->index == 0) show active @endif"
+                                                 role="tabpanel"
+                                                 aria-labelledby="item-2-{{ $department->departmentNr}}-tab">
 
-                                            <div class="outer">
-                                                <div class="">
-                                                    <h1 style="font-size:20px;">Bitte bis zu 5 Sitzplätze
-                                                        auswählen.</h1>
-                                                </div>
-
-                                                <div class="" id="seatChooserDiv">
-                                                    <form method="post" action="/cart/{{ $event->id }}"
-                                                          id="seatChooser">
-                                                        {{ csrf_field() }}
-                                                        <table id="{{ $department->departmentNr }}">
-
-                                                        </table>
-                                                        <input type="submit" class="btn btn-primary"
-                                                               name="{{ $department->departmentNr }}"
-                                                               value="Auswahl bestätigen">
-                                                    </form>
-                                                </div>
-
-                                                @if (count($errors) > 0)
-                                                    <div class="alert alert-danger">
-
-                                                        @foreach ($errors->all() as $error)
-                                                            {{ $error }}
-                                                        @endforeach
-
+                                                <div class="outer">
+                                                    <div class="">
+                                                        <h1 style="font-size:20px;">Bitte bis zu 5 Sitzplätze
+                                                            auswählen.</h1>
                                                     </div>
-                                                @endif
 
+                                                    <div class="" id="seatChooserDiv">
+                                                        <form method="post" action="/cart/{{ $event->id }}"
+                                                              id="seatChooser">
+                                                            {{ csrf_field() }}
+                                                            <table id="{{ $department->departmentNr }}">
+
+                                                            </table>
+                                                            <input type="submit" class="btn btn-primary"
+                                                                   name="{{ $department->departmentNr }}"
+                                                                   value="Auswahl bestätigen">
+                                                        </form>
+                                                    </div>
+
+                                                    @if (count($errors) > 0)
+                                                        <div class="alert alert-danger" style="min-width: 300px;">
+
+                                                            @foreach ($errors->all() as $error)
+                                                                {{ $error }}
+                                                            @endforeach
+
+                                                        </div>
+                                                    @endif
+
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    @endforeach
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -529,9 +545,9 @@ if (isset($_GET['get_database_changes'])) {
                             var x = i + 1;
                             var y = j + 1;
 
-                            if (allUnavailableSeatsX.length > 0) {
+                            if (allUnavailableSeatsX[h].length > 0) {
 
-                                for (var k = 0; k < allUnavailableSeatsX.length; k++) {
+                                for (var k = 0; k < allUnavailableSeatsX[h].length; k++) {
 
                                     if (allUnavailableSeatsX[h][k] == x && allUnavailableSeatsY[h][k] == y) {
 
