@@ -45,7 +45,7 @@
                     <div class="input-group"><span class="d-flex justify-content-center align-items-center input-group-addon"
                                 id="basic-addon1" style="height:38px;"><i class="fa fa-search"
                                                                           style="color:rgba(33,37,41,0.5);"></i></span>
-                        <input class="form-control" type="search" placeholder="Suche" aria-describedby="basic-addon1" name="search"></div>
+                        <input class="form-control" type="search" placeholder="Suche" aria-describedby="basic-addon1" name="q"></div>
                 </form>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown"
