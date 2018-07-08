@@ -49,7 +49,7 @@
                 </form>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown"
-                                            aria-expanded="false" href="#" style="color:rgba(0,0,0,0.5);">Events</a>
+                                            aria-expanded="false" href="#" style="color:rgba(0,0,0,0.5);">Kategorien</a>
                         <div class="dropdown-menu" role="menu">
 
                             <?php

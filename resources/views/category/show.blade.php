@@ -16,7 +16,7 @@
                     <div class="row articles">
                         @endif
 
-                        <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="{{ $eventset->teaserImage }}"></a>
+                        <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="/img/{{ $eventset->teaserImage }}"></a>
                             <h3 class="name">{{ $eventset->name }}</h3>
                             <p class="description">{{ $eventset->shortDescription }}</p><a
                                     href="/event/{{ $eventset->name }}" class="action"><i
