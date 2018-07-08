@@ -208,8 +208,8 @@
                         <div class="col-md-8 offset-sm-0 offset-md-2" style="margin-left:0px;padding-right:0px;padding-left:0px;width:495px;">
                             <form class="align-content-center align-self-center custom-form" style="width:495px;margin:0px;padding-top:10px;padding-bottom:0px;font-family:Roboto, sans-serif;">
                                 <div class="form-row form-group" style="height:30px;width:505px;margin-bottom:10px;margin-right:0px;padding-right:57px;margin-left:-76px;">
-                                    <div class="col-sm-4 label-column" style="margin-right:0px;padding-right:0px;"><label class="col-form-label" for="email-input-field">Email</label></div>
-                                    <div class="col-sm-6 input-column"><input class="form-control" type="email" style="height:30px;margin-left:7px;"></div>
+                                    <div class="col-sm-4 label-column" style="margin-right:0px;padding-right:0px;"><label class="col-form-label" for="email-input-field" style="margin-top:8px;">Email</label></div>
+                                    <div class="col-sm-6 input-column"><input class="form-control" type="email" style="height:50px;margin-left:7px;"></div>
                                 </div><button class="btn btn-light submit-button" type="button">Absenden</button></form>
                         </div>
                     </div>
