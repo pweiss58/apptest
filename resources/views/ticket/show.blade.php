@@ -214,7 +214,7 @@ if (isset($_GET['get_database_changes'])) {
                                                  role="tabpanel"
                                                  aria-labelledby="item-2-{{ $department->departmentNr}}-tab">
 
-                                                <div class="outer">
+                                                <div class="">
                                                     <div class="">
                                                         <h1 style="font-size:20px;">Bitte bis zu 5 Sitzplätze
                                                             auswählen.</h1>

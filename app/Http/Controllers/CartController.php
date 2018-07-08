@@ -51,11 +51,11 @@ class CartController extends Controller
     public function checkout(Request $request)
     {
 
-        if (Auth::check()) {
+        $chosenTickets = Cookie::get('chosenTickets');
 
-            $chosenTickets = Cookie::get('chosenTickets');
+        if ($chosenTickets != null) {
 
-            if ($chosenTickets != null) {
+            if (Auth::check()) {
 
                 $userID = Auth::id();
                 $chosenTickets = collect($chosenTickets);
@@ -73,27 +73,23 @@ class CartController extends Controller
 
                 return view('cart.checkout', array('chosenTickets' => $chosenTickets));
 
-            }
+            } else return redirect()->guest('login');
 
-            return redirect()->action('CartController@index');
-
-        } else {
-
-            return redirect()->guest('login');
-
-        }
+        } else return redirect()->action('CartController@index');
 
     }
 
-    public function completeCheckout(Request $request)
+
+    public
+    function completeCheckout(Request $request)
     {
 
         $userID = Auth::id();
         $currTime = new \DateTime(null, new \DateTimeZone('Europe/Berlin'));
 
         $orderNr = 0;
-        while ($orderNr == 0 || (DB::table('users')->where('customer_id','=',$orderNr)->first() != null)) {
-            $orderNr = random_int(000300000,999999999);
+        while ($orderNr == 0 || (DB::table('users')->where('customer_id', '=', $orderNr)->first() != null)) {
+            $orderNr = random_int(000300000, 999999999);
         }
 
         $chosenTickets = DB::table('tickets')->where([
@@ -127,7 +123,8 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public
+    function create()
     {
         //
     }
@@ -138,7 +135,8 @@ class CartController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public
+    function store(Request $request)
     {
         //
     }
@@ -149,7 +147,8 @@ class CartController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public
+    function show($id)
     {
         //
     }
@@ -160,7 +159,8 @@ class CartController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         //
     }
@@ -172,7 +172,8 @@ class CartController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public
+    function update(Request $request, $id)
     {
         //
     }
@@ -183,7 +184,8 @@ class CartController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public
+    function destroy()
     {
 
         $chosenTicketIDs = $_POST['chosenTickets'];

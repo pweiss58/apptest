@@ -105,7 +105,8 @@ class TicketController extends Controller
                 $seatChooserString = "seats".strval($departmentNr);
 
 
-                if(isset($_POST[$bestPlatzString])) {       //Bestplatzbuchung
+                //Bestplatzbuchung
+                if(isset($_POST[$bestPlatzString])) {
 
                     $amountOfChosenTickets = $_POST[$bestPlatzString];
 
@@ -157,10 +158,11 @@ class TicketController extends Controller
                     }
                     else return back();
                 }
-                else if (isset($_POST[$seatChooserString])) {                                      //Sitzplatzauswahl
+
+                //Saalplanbuchung
+                else if (isset($_POST[$seatChooserString])) {
 
                     $alphabet = range('A', 'Z');
-                    //$chosenSeats = $request->input('');
                     $chosenSeats = $_POST[$seatChooserString];
 
                     $errormessages = [
