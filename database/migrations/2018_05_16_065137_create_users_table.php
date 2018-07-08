@@ -24,7 +24,9 @@ class CreateUsersTable extends Migration
             $table->string('city')->nullable();
             $table->string('address')->nullable();
             $table->integer('customer_id')->unique();
+
             $table->string('remember_token')->nullable();
+            $table->string('pwResetToken')->nullable();
 
             //Usertype
             $table->string('type')->default('default');
