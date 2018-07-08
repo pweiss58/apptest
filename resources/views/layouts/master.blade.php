@@ -41,7 +41,7 @@
                     data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
                         class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
-                <form class="form-inline navbar-left" style="margin-bottom: 0;">
+                <form class="form-inline navbar-left" action="/search" method="get">
                     <div class="input-group"><span
                                 class="d-flex justify-content-center align-items-center input-group-addon"
                                 id="basic-addon1" style="height:38px;"><i class="fa fa-search"
@@ -105,7 +105,7 @@
     <footer>
         <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i
                         class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a
-                    href="#"><i class="icon ion-social-facebook" ></i></a></div>
+                    href="#"><i class="icon ion-social-facebook"></i></a></div>
         <ul
                 class="list-inline">
             <li class="list-inline-item"><a href="{{ url('/') }}">Home</a></li>
@@ -114,7 +114,7 @@
             <li class="list-inline-item"><a href="#">AGBs</a></li>
             <li class="list-inline-item"><a href="{{ url('/privacy') }}">Datenschutz</a></li>
         </ul>
-        <p class="copyright">Ticket Hall © 2018</p>
+        <p class="copyright">Kartenhaus © 2018</p>
     </footer><!-- Return to Top -->
     <a href="javascript:" id="return-to-top"><i class="fas fa-chevron-up"></i></a>
 </div>

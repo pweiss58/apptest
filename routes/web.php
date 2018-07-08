@@ -86,35 +86,8 @@ Route::get('/admin', 'AdminController@index')->middleware('is_admin')->name('adm
 Route::post('/admin/delMod', 'AdminController@updateEventsets');
 Route::post('/admin/add', 'AdminController@addEventset');
 
+//Search
+Route::get('/search', 'SearchController@search');
 
-/*
-Route::get('/eventsets/{id}',function($id){$eventset = Eventset::find($id);
-    $eventset = Eventset::find($id);
 
-    return Response::json($eventset);
-});
-
-Route::post('/tasks',function(Request $request){
-    $eventset = Eventset::create($request->all());
-
-    return Response::json($eventset);
-});
-
-Route::put('/eventsets/{id?}',function(Request $request,$id){
-    $eventset = Eventset::find($id);
-
-    $eventset->name = $request->eventset;
-    $eventset->shortDescription = $request->shortDescription;
-
-    $eventset->save();
-
-    return Response::json($eventset);
-});
-
-Route::delete('/eventsets/{id?}',function($id){
-    $eventset = Eventset::destroy($id);
-
-    return Response::json($eventset);
-});
-*/
 

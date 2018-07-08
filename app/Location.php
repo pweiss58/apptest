@@ -2,10 +2,12 @@
 
 namespace App;
 
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
+    use Searchable;
     public function event(){
         return $this->hasMany('App\Event');
     }
@@ -16,5 +18,12 @@ class Location extends Model
 
     public function department(){
         return $this->hasMany('App\Seat');
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        return array('city' => $array['city'],);
     }
 }
