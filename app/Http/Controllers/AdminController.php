@@ -15,7 +15,7 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
-    public function admin()
+    public function index()
     {
         $eventsets = DB::table('eventsets')->get();
         $events = DB::table('events')->get();

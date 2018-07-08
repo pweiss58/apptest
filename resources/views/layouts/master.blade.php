@@ -41,12 +41,12 @@
                     data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
                         class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
-                <form class="form-inline navbar-left">
+                <form class="form-inline navbar-left" style="margin-bottom: 0;">
                     <div class="input-group"><span
                                 class="d-flex justify-content-center align-items-center input-group-addon"
                                 id="basic-addon1" style="height:38px;"><i class="fa fa-search"
                                                                           style="color:rgba(33,37,41,0.5);"></i></span><input
-                                class="form-control" type="text"
+                                class="form-control" type="search"
                                 placeholder="Suche" aria-describedby="basic-addon1"></div>
                 </form>
                 <ul class="nav navbar-nav ml-auto">
@@ -105,7 +105,7 @@
     <footer>
         <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i
                         class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a
-                    href="#"><i class="icon ion-social-facebook"></i></a></div>
+                    href="#"><i class="icon ion-social-facebook" ></i></a></div>
         <ul
                 class="list-inline">
             <li class="list-inline-item"><a href="{{ url('/') }}">Home</a></li>
