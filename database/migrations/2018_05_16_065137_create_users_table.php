@@ -26,13 +26,17 @@ class CreateUsersTable extends Migration
             $table->integer('customer_id')->unique();
 
             $table->string('remember_token')->nullable();
-            $table->string('pwResetToken')->nullable();
+
 
             //Usertype
             $table->string('type')->default('default');
 
             //Email Verification
             $table->string('token')->nullable();
+
+            //Password Reset
+            $table->string('pwResetToken')->nullable();
+
             //fuer Studienarbeit auf true gesetzt -> da wir keine Emails verschicken - normalerweise:false
             $table->boolean('verified')->default(true);
 

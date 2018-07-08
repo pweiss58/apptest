@@ -81,6 +81,9 @@ Route::post('profile', 'ProfileController@update')->name('profile');
 //Email verification
 Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 
+//Password reset
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+
 //Admin-access (Eventset- & Event-administration)
 Route::get('/admin', 'AdminController@index')->middleware('is_admin')->name('admin');
 Route::post('/admin/delMod', 'AdminController@updateEventsets');

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmOrder;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyMail;
 
 class CartController extends Controller
 {
@@ -84,6 +87,7 @@ class CartController extends Controller
     function completeCheckout(Request $request)
     {
 
+        $user = Auth::user();
         $userID = Auth::id();
         $currTime = new \DateTime(null, new \DateTimeZone('Europe/Berlin'));
 
@@ -113,6 +117,8 @@ class CartController extends Controller
         }
 
         \Cookie::queue(\Cookie::forget('chosenTickets'));
+
+        Mail::to($user->email)->send(new ConfirmOrder($user));
 
         return view('cart.checkoutDone', array('orderNr' => $orderNr));
 
