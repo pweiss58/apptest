@@ -39,7 +39,6 @@ Route::post('cart', 'CartController@destroy');
 //Checkout
 Route::get('checkout', 'CartController@index');
 Route::post('checkout', 'CartController@checkout');
-//Route::get('checkoutComplete', 'CartController@index');
 Route::post('checkoutComplete', 'CartController@completeCheckout');
 
 //Category View aufrufen
@@ -83,9 +82,9 @@ Route::post('profile', 'ProfileController@update')->name('profile');
 Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 
 //Admin-access (Eventset- & Event-administration)
-Route::get('/admin', 'AdminController@admin')->middleware('is_admin')->name('admin');
-Route::post('eventset/delete/{id}', 'EventsetController@destroy');
-Route::post('/admin/update/eventsets', 'AdminController@updEventsets');
+Route::get('/admin', 'AdminController@index')->middleware('is_admin')->name('admin');
+Route::post('/admin/delMod', 'AdminController@updateEventsets');
+Route::post('/admin/add', 'AdminController@addEventset');
 
 //Search
 Route::get('/search', 'SearchController@search');

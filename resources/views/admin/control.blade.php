@@ -15,10 +15,11 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" role="tablist">
                 <li class="nav-item"><a class="nav-link active" href="#item-1-1" id="item-1-1-tab" data-toggle="tab"
-                                        role="tab" aria-controls="item-1-1" aria-selected="true">modify/delete EventSets</a>
+                                        role="tab" aria-controls="item-1-1" aria-selected="true">modify/delete
+                        EventSets</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#item-1-2" id="item-1-2-tab" data-toggle="tab" role="tab"
-                                        aria-controls="item-1-2" aria-selected="false">add Event</a></li>
+                                        aria-controls="item-1-2" aria-selected="false">add Eventset</a></li>
 
 
             </ul>
@@ -30,7 +31,7 @@
                 <div id="item-1-1" class="tab-pane fade show active" role="tabpanel" aria-labelledby="item-1-1-tab">
                     <div class="table-responsive" style="color:#444f51;">
 
-                        <form method="POST" action="/admin">
+                        <form method="POST" action="/admin/delMod">
                             {{ csrf_field() }}
 
                             <table class="table table-hover">
@@ -41,19 +42,6 @@
                                     <th>shortDescr</th>
                                     <th>longDescr</th>
                                     <th>deleteEvent</th>
-                                    <!--
-                                    $table->increments('id');
-                                    $table->timestamps();
-                                    $table->string('name');
-                                    $table->text('shortDescription');
-                                    $table->text('longDescription');
-                                    $table->string('teaserImage');
-                                    $table->string('bannerImage');
-                                    $table->integer('eventCount');
-
-                                    $table->integer('category_id')->unsigned()->nullable();
-                                    $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-                                    -->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -62,54 +50,146 @@
 
                                     <tr>
                                         <td style="padding-top:18px;">{{ $eventset->id }}</td>
-                                        <td style="padding-top:18px;">{{ $eventset->name }}</td>
-                                        <td style="padding-top:18px;">sdescr</td>
-                                        <td>Test
-                                            <!--<select name="seatsbp{{ $eventset->id }}"
-                                                    style="margin-top:6px;">
-                                                <option value="0" selected>0</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                            -->
+
+                                        <td style="padding-top:18px;">
+                                            <input class="form-control" type="text" name="name{{ $eventset->id }}"
+                                                   value="{{ $eventset->name }}">
                                         </td>
+
+                                        <td style="padding-top:18px;">
+                                            <textarea
+                                                    class="form-control"
+                                                    rows="3"
+                                                    name="shortDescription{{ $eventset->id }}"
+                                                    style="width:340px;background-color:white;color:black;font-family:Roboto, sans-serif;">{{ $eventset->shortDescription }}</textarea>
+                                        </td>
+
+                                        <td style="padding-top:18px;">
+                                             <textarea
+                                                     class="form-control"
+                                                     rows="3"
+                                                     name="longDescription{{ $eventset->id }}"
+                                                     style="width:340px;background-color:white;color:black;font-family:Roboto, sans-serif;">{{ $eventset->longDescription }}</textarea>
+                                        </td>
+
                                         <td>
-                                            <button name="deleventset{{$eventset->id}}" class="btn btn-primary"
-                                                    type="submit">Delete
+                                            <button name="deleteEventset{{$eventset->id}}" class="btn btn-primary"
+                                                    type="submit">Delete Row
                                             </button>
                                         </td>
                                     </tr>
 
                                 @endforeach
 
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary" type="reset">Reset Changes</button>
+                                    </td>
+
+                                    <td>
+                                        <button class="btn btn-primary" name="updateEventsets" type="submit">Commit
+                                            Changes
+                                        </button>
+                                    </td>
+                                </tr>
                                 </tbody>
+
+
                             </table>
                         </form>
                     </div>
                 </div>
 
-                <!--Saalplanbuchung-->
+                <!--add eventsets-->
                 <div id="item-1-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-2-tab">
                     <div class="table-responsive" style="color:#444f51;">
 
-                        <div class="card">
-                            <div class="card-header">
-                                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        <form method="POST" action="/admin/add" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+
+                                    <th>name</th>
+                                    <th>shortDescr</th>
+                                    <th>longDescr</th>
+                                    <th>teaserImage</th>
+                                    <th>bannerImage</th>
+                                    <th>eventCount</th>
+                                    <th>category</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
 
 
+                                <tr>
 
-                                </ul>
-                            </div>
-                            <div class="card-body" style="margin-top:0px;">
-                                <div id="nav-tabContent" class="tab-content">
+                                    <td style="padding-top:18px;">
+                                        <input class="form-control" type="text" name="name">
+                                    </td>
+
+                                    <td style="padding-top:18px;">
+                                            <textarea
+                                                    class="form-control"
+                                                    rows="3"
+                                                    name="shortDescription"
+                                                    style="width:200px;background-color:white;color:black;font-family:Roboto, sans-serif;"></textarea>
+                                    </td>
+
+                                    <td style="padding-top:18px;">
+                                             <textarea
+                                                     class="form-control"
+                                                     rows="3"
+                                                     name="longDescription"
+                                                     style="width:200px;background-color:white;color:black;font-family:Roboto, sans-serif;"></textarea>
+                                    </td>
+
+                                    <td style="padding-top:18px;">
+                                        <input type="file" class="form-control" name="teaserImage" style="width:340px;height:38px;margin-bottom:10px;padding-top:0px;padding-bottom:0px;">
+                                    </td>
+
+                                    <td style="padding-top:18px;">
+                                        <input type="file" class="form-control" name="bannerImage" style="width:340px;height:38px;margin-bottom:10px;padding-top:0px;padding-bottom:0px;">
+                                    </td>
+
+                                    <td style="padding-top:18px;">
+                                        <input type="text" class="form-control" name="eventCount" style="width:50px;height:38px;margin-bottom:10px;padding-top:0px;padding-bottom:0px;">
+                                    </td>
+
+                                    <td style="padding-top:18px;">
+
+                                        <select name="category"
+                                                style="margin-top:6px;">
+                                            @foreach($categories as $category)
+
+                                                <option value="{{ $category->name }}" @if($loop->first) selected @endif>{{ $category->name }}</option>
+
+                                            @endforeach
+
+                                        </select>
+
+                                    </td>
 
 
-                                </div>
-                            </div>
-                        </div>
+                                </tr>
+
+
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary" type="reset">Clear Form</button>
+
+                                        <button class="btn btn-primary" name="addEventset" type="submit">Add to Database
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+
+                            </table>
+                        </form>
+
                     </div>
                 </div>
             </div>

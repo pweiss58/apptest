@@ -1,5 +1,6 @@
 <?php
 
+use App\Event;
 use Illuminate\Database\Seeder;
 
 class EventsTableSeeder extends Seeder
@@ -18,14 +19,19 @@ class EventsTableSeeder extends Seeder
                 $dateInt= rand(1162055681,1262055681);
                 $priceFloat = (rand(4100, 6900) / 100);
 
-                DB::table('events')->insert(array(
-                    'startDate' => date("Y-m-d H:i:s", $dateInt),
-                    'endDate' => date("Y-m-d H:i:s",$dateInt+1),
-                    'eventNr' => $i,
-                    'eventset_id' => $eventsetID,
-                    'location_id' => random_int(1, (\App\Location::all()->count())),
-                    'basePrice' => $priceFloat,
-                ));
+
+                $event = new Event();
+
+                $event->startDate = date("Y-m-d H:i:s", $dateInt);
+                $event->endDate = date("Y-m-d H:i:s", $dateInt+1);
+                $event->eventNr = $i;
+                $event->eventset_id = $eventsetID;
+                $event->location_id = random_int(1, (\App\Location::all()->count()));
+                $event->basePrice = $priceFloat;
+
+                $event->save();
+
+                $event->artist()->attach(App\Artist::find($eventsetID));
             }
         }
     }

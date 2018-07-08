@@ -53,7 +53,7 @@
                         <div class="row">
                             <div class="col d-flex justify-content-sm-center align-items-sm-center align-content-sm-center justify-content-md-center align-items-md-center align-content-md-center">
                                 <img class="d-inline-flex"
-                                     style="background-image:url(&quot;{{ $thisEventset->teaserImage }}&quot;);margin-left:18px;margin-top:0px;width:120px;height:120px;background-position:center;background-size:contain;">
+                                     style="background-image:url(&quot;/img/{{ $thisEventset->teaserImage }}&quot;);margin-left:18px;margin-top:0px;width:120px;height:120px;background-repeat:no-repeat;background-position:center;background-size:contain;">
                             </div>
                             <div class="col-md-6 d-flex flex-column align-items-sm-center align-content-sm-center align-items-md-start align-content-md-center align-items-lg-start align-items-xl-start"
                                  style="margin-top:10px;">

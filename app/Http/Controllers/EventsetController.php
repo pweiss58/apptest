@@ -114,24 +114,6 @@ class EventsetController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::check()) {
-            $userId = Auth::id();
-            $user = User::find($userId);
-
-            if (isset($_POST[$id])) {
-                DB::table('eventsets')->where('id','=',$id+2)->delete();
-            }
-
-            if($user->admin == 1) {
-                DB::table('eventsets')->where('id','=',$id)->delete();
-            }
-
-            //test
-            if (Auth::user()->isAdmin()) {
-                DB::table('eventsets')->where('id','=',$id+1)->delete();
-            }
-
-            return view('AdminController@admin');
-        }
+        //
     }
 }

@@ -11,13 +11,84 @@ class ArtistsTableSeeder extends Seeder
      */
     public function run()
     {
-        /*factory(App\Artist::class, 2)->create()->each(function($u){
-            $u->events()->save(factory(App\Event::class)->make());
-        });*/
 
-        factory(App\Artist::class, 16)->create()->each(function($u){
-            $u->event()->attach(App\Event::find(random_int(1,8)));
-        });
+        DB::table('artists')->insert(array(
+            'name' => 'Kaleo',
+            'genre' => 'Rock',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Patti Smith',
+            'genre' => 'Rock',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Eric Clapton',
+            'genre' => 'Rock',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Arctic Monkeys',
+            'genre' => 'Rock',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Kaiser Chiefs',
+            'genre' => 'Rock',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Tools',
+            'genre' => 'Rock',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'ZAZ',
+            'genre' => 'Pop',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Elton John',
+            'genre' => 'Pop',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Matt Simons',
+            'genre' => 'Pop',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Philipp Poisel',
+            'genre' => 'Pop',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Beck',
+            'genre' => 'Pop',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'George Ezra',
+            'genre' => 'Pop',
+
+        ));
+
+        DB::table('artists')->insert(array(
+            'name' => 'Max Richter',
+            'genre' => 'Klassik',
+
+        ));
 
 
     }

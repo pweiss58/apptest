@@ -11,7 +11,6 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        //factory(App\Category::class, 3)->create();
 
         DB::table('categories')->insert(array(
             'name' => 'Rock',

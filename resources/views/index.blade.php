@@ -67,7 +67,7 @@
                                         <div class="col-sm-6 col-md-5 col-lg-4 item"
                                              style="width:319px;margin-bottom:20px;">
                                             <div class="d-table-cell box"
-                                                 style="background-image:url(&quot;{{ $eventset->teaserImage }}&quot;);height:343px;width:289px;margin-left:0px;background-repeat:no-repeat;background-position:center;"></div>
+                                                 style="background-image:url(&quot;/img/{{ $eventset->teaserImage }}&quot;);height:343px;width:289px;margin-left:0px;background-repeat:no-repeat;background-position:center;"></div>
                                             <p class="text-center d-table-row description"
                                                style="background-color:#ffffff;padding:0px;height:66px;width:289px;">{{ $eventset->shortDescription }}</p>
                                             <a
