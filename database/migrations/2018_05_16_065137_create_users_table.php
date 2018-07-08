@@ -37,10 +37,6 @@ class CreateUsersTable extends Migration
 
             $table->timestamps();
 
-
-            /* $table->integer('location_id')->unsigned()->nullable();
-             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');*/
-
         });
     }
 

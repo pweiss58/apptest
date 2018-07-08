@@ -84,7 +84,9 @@ Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 //Admin-access (Eventset- & Event-administration)
 Route::get('/admin', 'AdminController@index')->middleware('is_admin')->name('admin');
 Route::post('/admin/delMod', 'AdminController@updateEventsets');
-Route::post('/admin/add', 'AdminController@addEventset');
+Route::post('/admin/addEventset', 'AdminController@addEventset');
+Route::post('/admin/addEvent', 'AdminController@addEvent');
+//Route::post('/admin/deleteEvent', 'AdminController@deleteEvent');
 
 //Search
 Route::get('/search', 'SearchController@search');
