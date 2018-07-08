@@ -20,8 +20,9 @@ class AdminController extends Controller
         $eventsets = DB::table('eventsets')->get();
         $events = DB::table('events')->get();
         $categories = DB::table('categories')->get();
+        $locations = DB::table('locations')->get();
 
-        return view('admin.control', array('eventsets' => $eventsets, 'events' => $events, 'categories' => $categories));
+        return view('admin.control', array('eventsets' => $eventsets, 'events' => $events, 'categories' => $categories, 'locations' => $locations));
     }
 
     public function updateEventsets(Request $request)
@@ -59,12 +60,12 @@ class AdminController extends Controller
 
         } else {
 
-            return $this->deleteEventset();
+            return $this->deleteEventset($request);
         }
 
     }
 
-    public function deleteEventset()
+    public function deleteEventset(Request $request)
     {
 
         $eventsets = DB::table('eventsets')->get();
@@ -83,9 +84,10 @@ class AdminController extends Controller
 
             }
 
-
         }
-        return back();
+
+        return $this->deleteEvent($request);
+        
     }
 
 
@@ -178,5 +180,121 @@ class AdminController extends Controller
         }
 
         return back();
+    }
+
+    public function addEvent(Request $request)
+    {
+
+        $request->validate([
+            'startDate' => 'required|date_format:"Y-m-d H:i:s"',
+            'endDate' => 'required|date_format:"Y-m-d H:i:s"',
+            'basePrice' => 'required|numeric',
+        ]);
+
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+        $basePrice = $request->input('basePrice');
+        $eventset_id = $request->input('eventset_id');
+        $location_id = $request->input('location_id');
+
+        $eventCount = DB::table('eventsets')->where([
+            ['id', '=', $eventset_id],
+        ])->value('eventCount');
+
+        $events = DB::table('events')->where([
+            ['eventset_id', '=', $eventset_id],
+        ])->get();
+
+        $i = 1;
+        $firstFreeEventNr = null;
+
+        foreach ($events as $event) {
+
+            if($event->eventNr != $i){
+
+                $firstFreeEventNr = $i;
+                break;
+            }
+
+            $i++;
+
+        }
+
+        if ($firstFreeEventNr == null){
+
+            $firstFreeEventNr = $i;
+        }
+
+        $startDateDate = date_create_from_format('Y-m-d H:i:s', $startDate);
+        $endDateDate = date_create_from_format('Y-m-d H:i:s', $endDate);
+
+
+        DB::table('events')->insert(array(
+            'startDate' => $startDateDate,
+            'endDate' => $endDateDate,
+            'eventNr' => $firstFreeEventNr,
+            'eventset_id' => $eventset_id,
+            'location_id' => $location_id,
+            'basePrice' => $basePrice,
+        ));
+
+        $justCreatedEventID = DB::getPdo()->lastInsertId();
+        $thisEvent = DB::table('events')->where('id', '=', $justCreatedEventID)->first();
+        $thisLocation = DB::table('locations')->where('id', '=', $location_id)->first();
+
+        for ($departmentNr = 1; $departmentNr <= $thisLocation->departmentCount; $departmentNr++) {
+
+            $thisDepartment = DB::table('departments')->where([
+                ['location_id', '=', $location_id],
+                ['departmentNr', '=', $departmentNr],
+            ])->first();
+
+            for ($j = 1; $j <= $thisDepartment->rowCount; $j++) {
+
+                for ($g = 1; $g <= $thisDepartment->columnCount; $g++) {
+
+                    $thisSeat = DB::table('seats')->where([
+                        ['department_id', '=', $thisDepartment->id],
+                        ['seatX', '=', $j],
+                        ['seatY', '=', $g],
+                    ])->first();
+
+                    DB::table('tickets')->insert(array(
+                        'price' => $thisEvent->basePrice + $thisDepartment->departmentPrice,
+                        'description' => str_random(30),
+                        'available' => true,
+                        'paid' => false,
+                        'event_id' => $justCreatedEventID,
+                        'seat_id' => $thisSeat->id,
+                    ));
+                }
+            }
+        }
+
+        return back();
+
+    }
+
+    public function deleteEvent(Request $request){
+
+        $eventsets = DB::table('eventsets')->get();
+
+        foreach ($eventsets as $eventset) {
+
+            if (isset($_POST[strval($eventset->id)])) {
+
+                $eventset_id = $eventset->id;
+                $eventNr = $request->input('eventNr'.$eventset->id);
+            }
+
+        }
+        
+        DB::table('events')->where([
+            ['eventset_id', '=', $eventset_id],
+            ['eventNr', '=', $eventNr],
+        ])->delete();
+
+        return back();
+
     }
 }
