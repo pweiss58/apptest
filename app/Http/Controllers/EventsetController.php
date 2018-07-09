@@ -105,9 +105,10 @@ class EventsetController extends Controller
         );
 
         //für den search index
-        $eventset = Eventset::find($request->get('id');
+        $eventset = Eventset::find($request->get('id'));
         $eventset->name = DB::table('eventsets')->where(['id', '=', $thisEventsetID])->get('name');
         $eventset->update();
+
         return redirect()->action('EventsetController@show', array('eventsetName' => $eventsetName));
     }
 
