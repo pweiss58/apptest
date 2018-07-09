@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Eventset;
 use App\Location;
 use App\Artist;
+use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
