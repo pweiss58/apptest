@@ -13,6 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/graphical_dep.css') }}" rel="stylesheet">
 
     <!-- Fonts -->
     <link rel="stylesheet" href="{{ asset('fonts/fontawesome-all.min.css') }}">
