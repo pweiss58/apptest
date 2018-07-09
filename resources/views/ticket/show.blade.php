@@ -48,7 +48,7 @@ if (isset($_GET['get_database_changes'])) {
 }
 ?>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/public/js/jquery.min.js"></script>
 <script>
 
     $(function () {
@@ -214,9 +214,9 @@ if (isset($_GET['get_database_changes'])) {
                                                  role="tabpanel"
                                                  aria-labelledby="item-2-{{ $department->departmentNr}}-tab">
 
-                                                <div class="">
+                                                <div class="" style="float: left; width: 65%; overflow: hidden;">
                                                     <div class="">
-                                                        <h1 style="font-size:20px;">Bitte bis zu 5 Sitzplätze
+                                                        <h1 style="font-size:20px;margin-bottom: 12px; margin-left: 12px;">Bitte bis zu 5 Sitzplätze
                                                             auswählen.</h1>
                                                     </div>
 
@@ -243,6 +243,18 @@ if (isset($_GET['get_database_changes'])) {
                                                         </div>
                                                     @endif
 
+                                                </div>
+
+                                                <!-- Graphical Department Chooser -->
+                                                <div style="padding-top: 24px;">
+                                                <div style="padding-left: 8px; overflow:hidden; ">
+                                                    <div class="radius depText dep" style="width: {{(200*1.3)}}px;  height: 70px; font:2.45em Arial, sans-serif; color:dimgrey; margin: auto;">STAGE</div>
+                                                    @foreach($departments as $department)
+                                                        <div style="margin-bottom: 12px;">
+                                                                <div class="depSelected radius depText dep" style="font: 2.12em Arial, sans-serif; width: {{(200*1.3)}}px; height: {{(70*1.3)}}px;">Kategorie {{ $department->departmentNr }}</div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
                                                 </div>
                                             </div>
 
