@@ -77,6 +77,9 @@ class AdminController extends Controller
 
             if (isset($_POST[$deleteString])) {
 
+                $searchableEventset = Eventset::find($eventset->id);
+                $searchableEventset->delete();
+
                 DB::table('eventsets')->where([
                     ['id', '=', $eventset->id],
                 ])->delete();
@@ -84,6 +87,8 @@ class AdminController extends Controller
                 return back();
 
             }
+
+
 
         }
 
@@ -192,7 +197,19 @@ class AdminController extends Controller
                     }
                 }
             }
+
         }
+
+
+        //suche
+        $searchableEventset = new Eventset();
+        //::find($request->get('name'));
+        //$searchableEventset->name = DB::table('eventsets')->where(['name', '=', $name])->get('name');
+        $searchableEventset->name = $name;
+        $searchableEventset->shortDescription = $shortDescription;
+        $searchableEventset->longDescription = $longDescription;
+        $searchableEventset->save();
+
 
         return back();
     }
