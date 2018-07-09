@@ -1,0 +1,19 @@
+.depText {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+
+}
+.depSelected {
+    background-color:dodgerblue;
+}
+.depUnselected {
+    background-color: darkgrey;
+}
+.dep {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.radius { border-radius: 5px; }
