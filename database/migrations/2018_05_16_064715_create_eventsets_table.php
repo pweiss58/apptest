@@ -16,7 +16,7 @@ class CreateEventsetsTable extends Migration
         Schema::create('eventsets', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->text('shortDescription');
             $table->text('longDescription');
             $table->string('teaserImage')->nullable();
