@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use App\Eventset;
 
 class AdminController extends Controller
 {
@@ -123,11 +124,25 @@ class AdminController extends Controller
             ['name', '=', $categoryName],
         ])->value('id');
 
-        DB::table('eventsets')->insert([
+        /*DB::table('eventsets')->insert([
             ['name' => $name, 'shortDescription' => $shortDescription, 'longDescription' => $longDescription, 'teaserImage' => $input['teaserImage'], 'bannerImage' => $input['bannerImage'], 'category_id' => $categoryID, 'eventCount' => $eventCount]
         ]);
 
-        $justCreatedEventsetID = DB::getPdo()->lastInsertId();
+        $justCreatedEventsetID = DB::getPdo()->lastInsertId();*/
+
+        $eventset = new Eventset();
+
+        $eventset->name = $name;
+        $eventset->shortDescription = $shortDescription;
+        $eventset->longDescription = $longDescription;
+        $eventset->teaserImage = $input['teaserImage'];
+        $eventset->bannerImage = $input['bannerImage'];
+        $eventset->category_id = $categoryID;
+        $eventset->eventCount = $eventCount;
+
+        $eventset->save();
+
+        $justCreatedEventsetID = $eventset->id;
 
         for ($i = 1; $i <= $eventCount; $i++) {
 

@@ -128,7 +128,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:#444f51;">Registrierung</h4>
+                                <h4 class="modal-title" style="color:#444f51;">Add Event</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                             aria-hidden="true">×</span></button>
                             </div>
@@ -142,9 +142,9 @@
                                             {{ csrf_field() }}
 
                                             <div class="form-row d-flex form-group"
-                                                 style="height:30px;width:465px;margin-bottom:10px;">
+                                                 style="height:30px;width:465px;margin-bottom:30px;">
                                                 <div class="col-sm-4 label-column" style="margin-right:5px;">
-                                                    <label class="col-form-label" for="startDate">startDate; Y-m-d
+                                                    <label class="col-form-label" for="startDate">startDate<br> Format: Y-m-d
                                                         H:i:s</label>
                                                 </div>
                                                 <div class="col-sm-6 input-column">
@@ -155,9 +155,9 @@
                                             </div>
 
                                             <div class="form-row d-flex form-group"
-                                                 style="height:30px;width:465px;margin-bottom:10px;">
+                                                 style="height:30px;width:465px;margin-bottom:30px;">
                                                 <div class="col-sm-4 label-column" style="margin-right:5px;">
-                                                    <label class="col-form-label" for="endDate">endDate; Y-m-d
+                                                    <label class="col-form-label" for="endDate">endDate<br> Format: Y-m-d
                                                         H:i:s</label>
                                                 </div>
                                                 <div class="col-sm-6 input-column">
@@ -228,72 +228,6 @@
                     </div>
                 </div>
 
-                <!-- delete event popup
-                <div class="modal fade" role="dialog" tabindex="-1" id="modal1">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" style="color:#444f51;">Registrierung</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                            aria-hidden="true">×</span></button>
-                            </div>
-                            <div class="modal-body" style="width:500px;padding-bottom:0px;height:505px;">
-                                <div class="row register-form">
-                                    <div class="col-md-8 offset-md-2"
-                                         style="margin-left:0px;padding-right:0px;padding-left:0px;width:347px;">
-
-                                        <form class="custom-form" method="POST" action="/admin/deleteEvent"
-                                              style="width:495px;margin:0px;padding-top:10px;padding-bottom:0px;font-family:Roboto, sans-serif;">
-                                            {{ csrf_field() }}
-
-                                            <div class="form-row d-flex form-group"
-                                                 style="height:30px;width:465px;margin-bottom:10px;">
-                                                <div class="col-sm-4 label-column" style="margin-right:5px;">
-                                                    <label class="col-form-label" for="eventset_id">eventset_id</label>
-                                                </div>
-                                                <div class="col-sm-6 input-column">
-                                                    <select id="eventset_id" name="eventset_id"
-                                                            style="margin-top:6px;">
-
-                                                        @foreach($eventsets as $eventset)
-                                                            <option value="{{ $eventset->id }}"
-                                                                    @if($loop->first) selected @endif>{{ $eventset->id }}
-                                                            </option>
-                                                        @endforeach
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-row d-flex form-group"
-                                                 style="height:30px;width:465px;margin-bottom:10px;">
-                                                <div class="col-sm-4 label-column" style="margin-right:5px;">
-                                                    <label class="col-form-label" for="eventNr">eventNr</label>
-                                                </div>
-                                                <div class="col-sm-6 input-column">
-                                                    <select id="eventNr" name="eventNr"
-                                                            style="margin-top:6px;">
-
-                                                        @foreach($locations as $location)
-                                                            <option value="{{ $location->id }}"
-                                                                    @if($loop->first) selected @endif>{{ $location->id }}
-                                                            </option>
-                                                        @endforeach
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <input type="submit" value="Absenden" class="btn btn-light submit-button">
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer" style="width:500px;"></div>
-                        </div>
-                    </div>
-                </div>-->
 
                 <!--add eventsets-->
                 <div id="item-1-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-2-tab">

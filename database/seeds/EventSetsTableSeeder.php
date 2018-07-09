@@ -11,7 +11,6 @@ class EventSetsTableSeeder extends Seeder
      */
     public function run()
     {
-
         //Rock
         DB::table('eventsets')->insert(array(
             'name' => 'Kaleo EXPRESS-World-Tour-2017',
