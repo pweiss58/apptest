@@ -203,8 +203,6 @@ class AdminController extends Controller
 
         //suche
         $searchableEventset = new Eventset();
-        //::find($request->get('name'));
-        //$searchableEventset->name = DB::table('eventsets')->where(['name', '=', $name])->get('name');
         $searchableEventset->name = $name;
         $searchableEventset->shortDescription = $shortDescription;
         $searchableEventset->longDescription = $longDescription;
