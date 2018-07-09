@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Eventset;
 
 class EventsetController extends Controller
 {
@@ -103,6 +104,10 @@ class EventsetController extends Controller
             ['authorName' => $authorName, 'authorEmail' => $authorEmail, 'text' => $text, 'eventset_id' => $thisEventsetID]
         );
 
+        //für den search index
+        $eventset = Eventset::find($request->get('id');
+        $eventset->name = DB::table('eventsets')->where(['id', '=', $thisEventsetID])->get('name');
+        $eventset->update();
         return redirect()->action('EventsetController@show', array('eventsetName' => $eventsetName));
     }
 
