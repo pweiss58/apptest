@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Eventset;
 use App\Location;
 use App\Artist;
@@ -20,7 +21,7 @@ class SearchController extends Controller
         //if($request->has('search')) {
 
 
-            $eventsetresults = Eventset::search($request->input('search'))->get();
+            $eventsetresults = Eventset::search($request->input('q'))->get();
 
             return view('search.results', compact('eventsetresults'));
 
